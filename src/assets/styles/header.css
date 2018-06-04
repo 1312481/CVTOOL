@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+.header__logo__container{
+    display: inline-block;
+    margin-left: 2%;
+}
+.header__decorator__container{
+    display: inline-block;
+}
+.header__logo {
+    width: 200px;
+    height: 200px;
+}
+.header__decorator {
+    display: inline-block;
+    justify-content: flex-end;
+}
+.header__decorator__image {
+    width: 300px;
+    height: 300px;
+}
+
+
+
+

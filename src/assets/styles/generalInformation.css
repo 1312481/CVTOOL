@@ -1,0 +1,52 @@
+
+.maincontent {
+    margin: 2.5%;
+    margin-top: 1%;
+}
+
+.maincontent__header {
+    color: #CF2338;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+.cardcustom {
+    padding: 0px !important;
+    border: 2px #AFB0B3 solid;
+}
+
+.content {
+    margin: 2.6% !important;
+    margin-top: 1% !important;
+}
+
+.card-body-custom {
+    text-align: center;
+    vertical-align: middle;
+    background: #6D829F !important;
+    color: white !important;
+}
+
+.card-title-custom {
+    font-size: 1.7rem;
+}
+.information__header{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.skill{
+    margin-top: 20px;
+}
+.iconEdit{
+    width: 13px;
+    margin-left: 2%;
+}
+.textAreaCustom{
+    width: 100% !important;
+    height: 100px;
+}
+@media print{
+    -webkit-print-color-adjust: exact;
+ 
+}
