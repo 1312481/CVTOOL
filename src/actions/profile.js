@@ -26,6 +26,13 @@ export function profileFetchDataSuccess(profile){
     };
 }
 
+export function profileUpdateData(profile){
+    return {
+        type: 'PROFILE_UPDATE_DATA',
+        profile
+    };
+}
+
 
 export function errorAfterFiveSeconds(){
     return (dispatch) => {

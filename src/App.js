@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import Header from './components/header'
 import GeneralInformation from './components/generalInformation'
+import Education from './components/education'
 
 
 
@@ -15,6 +16,7 @@ class App extends Component {
         <Header />
 
         <GeneralInformation />
+        <Education />
 
 
       </div>
