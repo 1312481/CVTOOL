@@ -14,19 +14,89 @@ import '../assets/styles/education.css'
 class Education extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            nameEducationEdited: [],
+            majorEducationEdited: [],
+            graduatedEducationEdited: []
+        }
+
 
 
 
     }
+    nameEducationEditing(index, name) {
+        
+        if (name == 'name') {
+            let temp = { ...this.state.nameEducationEdited };
+            temp[index] = !temp[index];
+            this.setState({ nameEducationEdited: temp });
+        }
+        else if (name == 'major'){
+            let temp = { ...this.state.majorEducationEdited };  
+            temp[index] = !temp[index];
+            this.setState({ majorEducationEdited: temp });
+            
+        }
+        else if (name == 'graduated') {
+            let temp = { ...this.state.graduatedEducationEdited };
+            temp[index] = !temp[index];
+            this.setState({ graduatedEducationEdited: temp });
+        }
+
+    }
+    handleKeyNameEducationPress(e, index) {
+        if (e.key === 'Enter') {
+            let value = { ...this.props.profile };
+            value.education[index].name = e.target.value;
+            let temp = { ...this.state.nameEducationEdited };
+            temp[index] = !temp[index];
+            this.setState({ nameEducationEdited: temp });
+            this.props.profileUpdate(value);
+        }
+    }
+    handleKeyMajorEducationPress(e, index) {
+        if (e.key === 'Enter') {
+            let value = { ...this.props.profile };
+            value.education[index].major = e.target.value;
+            let temp = { ...this.state.majorEducationEdited };
+            temp[index] = !temp[index];
+            this.setState({ majorEducationEdited: temp });
+            this.props.profileUpdate(value);
+        }
+    }
+    handleKeyGraduatedEducationPress(e, index) {
+        if (e.key === 'Enter') {
+            let value = { ...this.props.profile };
+            value.education[index].gradutedTime = e.target.value;
+            let temp = { ...this.state.graduatedEducationEdited };
+            temp[index] = !temp[index];
+            this.setState({ graduatedEducationEdited: temp });
+            this.props.profileUpdate(value);
+        }
+    }
+
+    componentWillMount() {
+        if (!this.props.hasErrored && this.props.isLoaded) {
+            const a = this.props.profile.education.length;
+            let tempArray = new Array();
+            for (let i = 0; i < a; i++) {
+                const temp1 = false;
+                tempArray.push(temp1);
+            }
+            this.setState({
+                nameEducationEdited: [...this.state.nameEducationEdited, tempArray]
+            });
+            this.setState({
+                nameEducationEdited: [...this.state.majorEducationEdited, tempArray]
+            });
+            this.setState({
+                nameEducationEdited: [...this.state.graduatedEducationEdited, tempArray]
+            });
+        }
+    }
 
 
 
-
-    //   componentDidMount() {
-    //     console.log('did mount is called');
-    //     this.props.fetchData('https://api.myjson.com/bins/eoigu');
-
-    //   }
 
     render() {
         if (this.props.hasErrored) {
@@ -37,10 +107,10 @@ class Education extends Component {
 
             return <div>Loading...</div>;
         }
+
         else {
 
 
-            console.log(this.props.profile);
             return (
 
                 <div >
@@ -51,23 +121,56 @@ class Education extends Component {
                         <table>
                             <thead>
                                 <tr className="table-custom">
+                                    <th scope="col">Name</th>
                                     <th scope="col">Major</th>
-                                    <th scope="col">University</th>
                                     <th scope="col">Graduated Year</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>{this.props.profile.education[0].name}</td>
-                                    <td>{this.props.profile.education[0].major}</td>
-                                    <td>{this.props.profile.education[0].gradutedTime}</td>
-                                </tr>
-                                <tr>
-                                    <td>{this.props.profile.education[1].name}</td>
-                                    <td>{this.props.profile.education[1].major}</td>
-                                    <td>{this.props.profile.education[1].gradutedTime}</td>
-                                </tr>
-                           
+                                {this.props.profile.education.map((education, index) => {
+                                    return (
+                                        <tr key={education.name.toString()}>
+
+                                            {this.state.nameEducationEdited[index] ?
+                                                (<input type="text" onKeyDown={(e) => this.handleKeyNameEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+
+
+                                                (<td className="card-title card-title-custom">
+
+                                                    {this.props.profile.education[index].name}
+
+                                                    <img onClick={() => this.nameEducationEditing(index, 'name')} className="iconEdit" src={pencil} />
+                                                </td>)
+                                            }
+                                            {this.state.majorEducationEdited[index] ?
+                                                (<input type="text" onKeyDown={(e) => this.handleKeyMajorEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+
+
+                                                (<td className="card-title card-title-custom">
+
+                                                    {this.props.profile.education[index].major}
+
+                                                    <img onClick={() => this.nameEducationEditing(index, 'major')} className="iconEdit" src={pencil} />
+                                                </td>)
+                                            }
+                                            {this.state.graduatedEducationEdited[index] ?
+                                                (<input type="text" onKeyDown={(e) => this.handleKeyGraduatedEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+
+
+                                                (<td className="card-title card-title-custom">
+
+                                                    {this.props.profile.education[index].gradutedTime}
+
+                                                    <img onClick={() => this.nameEducationEditing(index, 'graduated')} className="iconEdit" src={pencil} />
+                                                </td>)
+                                            }
+
+
+                                        </tr>
+                                    )
+                                })}
+                               
+
                             </tbody>
 
                         </table>
@@ -94,7 +197,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        profileUpdate: (profile) => dispatch(profileUpdateData(profile))
     };
 };
 
