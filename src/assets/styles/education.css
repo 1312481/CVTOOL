@@ -1,0 +1,36 @@
+.maincontent {
+    margin: 2.5%;
+    margin-top: 1%;
+}
+
+.maincontent__header {
+    color: #CF2338;
+    font-weight: 500;
+    font-size: 2.5rem;
+}
+
+table{
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 15px;
+}
+
+.table-custom{
+    background: #6D829F;
+    color: white;
+}
+.maintable {
+    margin: 2.5%;
+    margin-top: 1%;
+    
+}
+
+@media print{
+    -webkit-print-color-adjust: exact;
+}
