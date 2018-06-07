@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 
 
 import pencil from '../assets/images/pencil.svg'
+import deleteImage from '../assets/images/delete.svg'
 import { connect } from 'react-redux'
 import { profileFetchData } from '../actions/profile'
 import { profileUpdateData } from '../actions/profile'
@@ -74,26 +75,18 @@ class Education extends Component {
             this.props.profileUpdate(value);
         }
     }
+    educationDeleting(index){
 
-    componentWillMount() {
-        if (!this.props.hasErrored && this.props.isLoaded) {
-            const a = this.props.profile.education.length;
-            let tempArray = new Array();
-            for (let i = 0; i < a; i++) {
-                const temp1 = false;
-                tempArray.push(temp1);
-            }
-            this.setState({
-                nameEducationEdited: [...this.state.nameEducationEdited, tempArray]
-            });
-            this.setState({
-                nameEducationEdited: [...this.state.majorEducationEdited, tempArray]
-            });
-            this.setState({
-                nameEducationEdited: [...this.state.graduatedEducationEdited, tempArray]
-            });
-        }
+        let value = { ...this.props.profile };
+        value.education.splice(index,1);
+        console.log(value.education);
+        this.props.profileUpdate(value);
+        this.forceUpdate();
+
+        
     }
+
+   
 
 
 
@@ -140,6 +133,7 @@ class Education extends Component {
                                                     {this.props.profile.education[index].name}
 
                                                     <img onClick={() => this.nameEducationEditing(index, 'name')} className="iconEdit" src={pencil} />
+                                                    <img onClick={() => this.educationDeleting(index)} className="iconEdit" src={deleteImage} />
                                                 </td>)
                                             }
                                             {this.state.majorEducationEdited[index] ?

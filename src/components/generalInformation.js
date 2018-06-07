@@ -230,7 +230,7 @@ class GeneralInformation extends Component {
 
 
   componentDidMount() {
-    this.props.fetchData('https://api.myjson.com/bins/12umma');
+    this.props.fetchData('https://api.myjson.com/bins/bp2hm');
 
   }
 

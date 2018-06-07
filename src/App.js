@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Header from './components/header'
 import GeneralInformation from './components/generalInformation'
 import Education from './components/education'
+import Experience from './components/experience'
 
 
 
@@ -17,7 +18,7 @@ class App extends Component {
 
         <GeneralInformation />
         <Education />
-
+        <Experience />
 
       </div>
     );
