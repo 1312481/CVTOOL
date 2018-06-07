@@ -46,6 +46,17 @@
     width: 100% !important;
     height: 100px;
 }
+.inputChange{
+    width: 100% !important;
+}
+.card-custom{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    border: 1px solid black !important;
+}
+#personalInfo{
+    border-right: none !important;
+}
 @media print{
     -webkit-print-color-adjust: exact;
  

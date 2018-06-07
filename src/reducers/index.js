@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import {profile, profileHasErrored, profileIsLoaded, nameEditing, profileUpdate} from './profile'
+import {profile, profileHasErrored, profileIsLoaded, nameEditing, profileUpdate, responseExp} from './profile'
 
 
 export default combineReducers ({

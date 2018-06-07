@@ -26,17 +26,17 @@ class Education extends Component {
 
     }
     nameEducationEditing(index, name) {
-        
+
         if (name == 'name') {
             let temp = { ...this.state.nameEducationEdited };
             temp[index] = !temp[index];
             this.setState({ nameEducationEdited: temp });
         }
-        else if (name == 'major'){
-            let temp = { ...this.state.majorEducationEdited };  
+        else if (name == 'major') {
+            let temp = { ...this.state.majorEducationEdited };
             temp[index] = !temp[index];
             this.setState({ majorEducationEdited: temp });
-            
+
         }
         else if (name == 'graduated') {
             let temp = { ...this.state.graduatedEducationEdited };
@@ -75,18 +75,19 @@ class Education extends Component {
             this.props.profileUpdate(value);
         }
     }
-    educationDeleting(index){
+    educationDeleting(index) {
+        if (window.confirm("Do you really want to delete this ?!?!")) {
+            let value = { ...this.props.profile };
+            value.education.splice(index, 1);
+            this.props.profileUpdate(value);
+            this.forceUpdate();
+        }
 
-        let value = { ...this.props.profile };
-        value.education.splice(index,1);
-        console.log(value.education);
-        this.props.profileUpdate(value);
-        this.forceUpdate();
 
-        
+
     }
 
-   
+
 
 
 
@@ -125,10 +126,10 @@ class Education extends Component {
                                         <tr key={education.name.toString()}>
 
                                             {this.state.nameEducationEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyNameEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control" type="text"  onKeyDown={(e) => this.handleKeyNameEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<td className="card-title card-title-custom">
+                                                (<td className="">
 
                                                     {this.props.profile.education[index].name}
 
@@ -137,10 +138,10 @@ class Education extends Component {
                                                 </td>)
                                             }
                                             {this.state.majorEducationEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyMajorEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control"  type="text" onKeyDown={(e) => this.handleKeyMajorEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<td className="card-title card-title-custom">
+                                                (<td className="">
 
                                                     {this.props.profile.education[index].major}
 
@@ -148,10 +149,10 @@ class Education extends Component {
                                                 </td>)
                                             }
                                             {this.state.graduatedEducationEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyGraduatedEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyGraduatedEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<td className="card-title card-title-custom">
+                                                (<td className="">
 
                                                     {this.props.profile.education[index].gradutedTime}
 
@@ -163,7 +164,7 @@ class Education extends Component {
                                         </tr>
                                     )
                                 })}
-                               
+
 
                             </tbody>
 

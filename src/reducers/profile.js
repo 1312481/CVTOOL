@@ -50,6 +50,8 @@ export function profileUpdate(state = [], action) {
     }
 }
 
+
+
 export function nameEditing(state = false, action) {
     switch (action.type) {
         case 'NAME_IS_EDITING': {

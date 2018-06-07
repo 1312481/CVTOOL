@@ -230,7 +230,7 @@ class GeneralInformation extends Component {
 
 
   componentDidMount() {
-    this.props.fetchData('https://api.myjson.com/bins/bp2hm');
+    this.props.fetchData('https://api.myjson.com/bins/on16i');
 
   }
 
@@ -260,7 +260,7 @@ class GeneralInformation extends Component {
 
 
                 {this.state.nameEdited ?
-                  (<input type="text" onKeyDown={this.handleKeyNamePress} placeholder="Moi ban nhap ten" />) :
+                  (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyNamePress} placeholder="Moi ban nhap ten" />) :
 
 
                   (<div className="card-title card-title-custom">
@@ -271,7 +271,7 @@ class GeneralInformation extends Component {
                   </div>)
                 }
                 {this.state.positionEdited ?
-                  (<input type="text" onKeyDown={this.handleKeyPositionPress} placeholder="Moi ban nhap vi tri" />) :
+                  (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyPositionPress} placeholder="Moi ban nhap vi tri" />) :
 
 
                   (<div className="card-title card-title-custom">
@@ -289,11 +289,11 @@ class GeneralInformation extends Component {
 
             <div className="col-7 offset-1">
               <div className="row">
-                <div className="card col-6 ">
+                <div className="card col-6 card-custom" id="personalInfo">
                   <h4 className="card-title information__header">Personal Information</h4>
                   <div className="card-text">
                     {this.state.phoneEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyPhonePress} placeholder="Moi ban nhap so dien thoai" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyPhonePress} placeholder="Moi ban nhap so dien thoai" />) :
 
 
                       (<div >
@@ -304,7 +304,7 @@ class GeneralInformation extends Component {
                       </div>)
                     }
                     {this.state.addressEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyAddressPress} placeholder="Moi ban nhap dia chi" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyAddressPress} placeholder="Moi ban nhap dia chi" />) :
 
 
                       (<div >
@@ -316,7 +316,7 @@ class GeneralInformation extends Component {
                     }
 
                     {this.state.emailEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyEmailPress} placeholder="Moi ban nhap email" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyEmailPress} placeholder="Moi ban nhap email" />) :
 
 
                       (<div >
@@ -328,7 +328,7 @@ class GeneralInformation extends Component {
                     }
 
                     {this.state.facebookEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyFacebookPress} placeholder="Moi ban nhap facebook" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyFacebookPress} placeholder="Moi ban nhap facebook" />) :
 
 
                       (<div >
@@ -341,7 +341,7 @@ class GeneralInformation extends Component {
 
 
                     {this.state.linkedinEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyLinkedinPress} placeholder="Moi ban nhap linkedin" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyLinkedinPress} placeholder="Moi ban nhap linkedin" />) :
 
 
                       (<div >
@@ -354,7 +354,7 @@ class GeneralInformation extends Component {
 
 
                     {this.state.githubEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyGithubPress} placeholder="Moi ban nhap Github" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyGithubPress} placeholder="Moi ban nhap Github" />) :
 
 
                       (<div >
@@ -367,7 +367,7 @@ class GeneralInformation extends Component {
 
 
                     {this.state.portfolioEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyPortfolioPress} placeholder="Moi ban nhap Portfolio" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyPortfolioPress} placeholder="Moi ban nhap Portfolio" />) :
 
 
                       (<div >
@@ -380,7 +380,7 @@ class GeneralInformation extends Component {
                   </div>
                 </div>
 
-                <div className="card col-6">
+                <div className="card col-6 card-custom">
                   <h4 className="card-title information__header">Personal Statement</h4>
                   <div className="card-text">
 
@@ -402,11 +402,11 @@ class GeneralInformation extends Component {
 
               </div>
               <div className="row skill">
-                <div className="card col-12">
+                <div className="card col-12 card-custom">
                   <h4 className="card-title information__header">Skill Summary</h4>
                   <div>
                     {this.state.englishLevelEdited ?
-                      (<input type="text" onKeyDown={this.handleKeyEnglishLevelPress} placeholder="Moi ban nhap English Level" />) :
+                      (<input class="inputChange form-control" type="text" onKeyDown={this.handleKeyEnglishLevelPress} placeholder="Moi ban nhap English Level" />) :
 
 
                       (<div >

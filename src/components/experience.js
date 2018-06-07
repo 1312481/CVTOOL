@@ -3,12 +3,14 @@ import React, { Component, PropTypes } from 'react';
 
 
 import pencil from '../assets/images/pencil.svg'
+import deleteImage from '../assets/images/delete.svg'
 import { connect } from 'react-redux'
 import { profileFetchData } from '../actions/profile'
 import { profileUpdateData } from '../actions/profile'
 import '../assets/styles/education.css'
+import configureStore from '../store/configureStore';
 
-// const API = 'https://api.myjson.com/bins/eoigu'
+
 
 
 class Experience extends Component {
@@ -21,14 +23,32 @@ class Experience extends Component {
             projectDescriptionEdited: [],
             projectTechnologyEdited: [],
             projectResEdited: [
-                [false, false, false, false, false],
-                [false, false, false, false, false]
+
             ]
         }
 
 
 
 
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.profile !== this.props.profile) {
+        
+            const a = nextProps.profile.experience.length;
+            let projectResTemp = [];
+            for (let i = 0; i < a; i++) {
+                let temp = [];
+                for (let j = 0; j < nextProps.profile.experience[i].responsibility.length; j++) {
+
+                    temp.push(false);
+                }
+                projectResTemp.push(temp);
+            }
+            this.setState({ projectResEdited: projectResTemp })
+            
+        }
     }
     nameExperienceEditing(index, name) {
 
@@ -128,13 +148,31 @@ class Experience extends Component {
             let value = { ...this.props.profile };
             value.experience[expIndex].responsibility[resIndex] = e.target.value;
             let temp = { ...this.state.projectResEdited };
-            temp[resIndex] = !temp[resIndex];
+            temp[expIndex][resIndex] = !temp[expIndex][resIndex];
             this.setState({ projectResEdited: temp });
             this.props.profileUpdate(value);
         }
     }
 
+    nameExperienceDeleting(index) {
+        if (window.confirm("Do you really want to delete this ?!?!")) {
+            let value = { ...this.props.profile };
+            value.experience.splice(index,1);
+            this.props.profileUpdate(value);
+            this.forceUpdate();
+        }
+        
+    }
 
+    nameExperienceResDeleting(index, resIndex) {
+        if (window.confirm("Do you really want to delete this ?!?!")) {
+            let value = { ...this.props.profile };
+            value.experience[index].responsibility.splice(resIndex,1);
+            this.props.profileUpdate(value);
+            this.forceUpdate();
+        }
+        
+    }
 
 
 
@@ -150,8 +188,9 @@ class Experience extends Component {
 
             return <div>Loading...</div>;
         }
-
         else {
+
+
 
 
             return (
@@ -171,12 +210,13 @@ class Experience extends Component {
                                         <tr className="table-custom">
                                             <th scope="col">Project</th>
                                             {this.state.projectNameEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyProjectNamePress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyProjectNamePress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<th scope="col">{exp.projectName}
+                                                (<td scope="col">{exp.projectName}
                                                     <img onClick={() => this.nameExperienceEditing(index, 'project')} className="iconEdit" src={pencil} />
-                                                </th>
+                                                    <img onClick={() => this.nameExperienceDeleting(index)} className="iconEdit" src={deleteImage} />
+                                                </td>
                                                 )
                                             }
 
@@ -184,81 +224,84 @@ class Experience extends Component {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="col">Duration</th>
+                                            <td scope="col">Duration</td>
                                             {this.state.projectDurationEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyProjectDurationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyProjectDurationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<th scope="col">{exp.time}
+                                                (<td scope="col">{exp.time}
                                                     <img onClick={() => this.nameExperienceEditing(index, 'duration')} className="iconEdit" src={pencil} />
-                                                </th>
+                                                </td>
                                                 )
                                             }
 
                                         </tr>
                                         <tr>
-                                            <th scope="col">Position</th>
+                                            <td scope="col">Position</td>
                                             {this.state.projectPositionEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyProjectPositionPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyProjectPositionPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<th scope="col">{exp.position}
+                                                (<td scope="col">{exp.position}
                                                     <img onClick={() => this.nameExperienceEditing(index, 'position')} className="iconEdit" src={pencil} />
-                                                </th>
+                                                </td>
                                                 )
                                             }
 
                                         </tr>
 
                                         <tr>
-                                            <th scope="col">ProjectDescription</th>
+                                            <td scope="col">ProjectDescription</td>
 
                                             {this.state.projectDescriptionEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyProjectDescriptionPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control"  type="text" onKeyDown={(e) => this.handleKeyProjectDescriptionPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<th scope="col">{exp.projectDescription}
+                                                (<td scope="col">{exp.projectDescription}
                                                     <img onClick={() => this.nameExperienceEditing(index, 'description')} className="iconEdit" src={pencil} />
-                                                </th>
+                                                </td>
                                                 )
                                             }
 
                                         </tr>
                                         <tr>
-                                            <th scope="col">My Responsibility</th>
-                                            <th scope="col">
+                                            <td scope="col">My Responsibility</td>
+                                            <td scope="col">
                                                 <ul>
-                                                    {/* {this.props.profile.experience[index].responsibility.map((res, resIndex) => {
+                                                    {this.props.profile.experience[index].responsibility.map((res, resIndex) => {
+
                                                         return (
-                                                            <li>
-                                                          
+
+                                                            <li  key={exp.toString() + index.toString() + resIndex.toString()}>
+
                                                                 {
                                                                     this.state.projectResEdited[index][resIndex] ?
-                                                                        (<input type="text" onKeyDown={(e) => this.handleKeyProjectResPress(e, index, resIndex)} placeholder="Moi ban nhap ten" />) :
+                                                                        (<input class="inputChange form-control"  type="text" onKeyDown={(e) => this.handleKeyProjectResPress(e, index, resIndex)} placeholder="Moi ban nhap ten" />) :
 
 
                                                                         (<div scope="col">{exp.responsibility[resIndex]}
                                                                             <img onClick={() => this.resEditing(index, resIndex, 'res')} className="iconEdit" src={pencil} />
+                                                                            <img onClick={() => this.nameExperienceResDeleting(index,resIndex)} className="iconEdit" src={deleteImage} />
                                                                         </div>
                                                                         )
                                                                 }
 
                                                             </li>
                                                         )
-                                                    })} */}
+                                                    })}
 
                                                 </ul>
-                                            </th>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <th scope="col">Technology</th>
+                                            <td scope="col">Technology</td>
                                             {this.state.projectTechnologyEdited[index] ?
-                                                (<input type="text" onKeyDown={(e) => this.handleKeyProjectTechnologyPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyProjectTechnologyPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
-                                                (<th scope="col">{exp.technicalSkills}
+                                                (<td scope="col">{exp.technicalSkills}
                                                     <img onClick={() => this.nameExperienceEditing(index, 'technology')} className="iconEdit" src={pencil} />
-                                                </th>
+                                                </td>
                                                 )
                                             }
 
@@ -279,6 +322,7 @@ class Experience extends Component {
                 </div >
             );
         }
+
     }
 }
 
@@ -289,7 +333,8 @@ const mapStateToProps = (state) => {
     return {
         profile: state.profile,
         hasErrored: state.profileHasErrored,
-        isLoaded: state.profileIsLoaded
+        isLoaded: state.profileIsLoaded,
+
 
     };
 };

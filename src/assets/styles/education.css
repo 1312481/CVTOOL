@@ -20,6 +20,9 @@ table, th, td {
 th, td {
     padding: 15px;
 }
+tr{
+    font-weight: bold;
+}
 
 .table-custom{
     background: #6D829F;
@@ -30,7 +33,15 @@ th, td {
     margin-top: 1%;
     
 }
+.inputChange{
+    margin-top: 10px;
+    width: 100% !important;
+    
+}
 
 @media print{
+    .iconEdit{
+        display: none;
+    }
     -webkit-print-color-adjust: exact;
 }

@@ -58,6 +58,8 @@ export function profileFetchData(url) {
                 
                 dispatch(profileFetchDataSuccess(profile));
                 dispatch(profileIsLoaded(true));
+               
+              
                 }
             )
             .catch(() => dispatch(profileHasErrored(true)));

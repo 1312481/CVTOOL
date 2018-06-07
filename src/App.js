@@ -5,7 +5,7 @@ import Header from './components/header'
 import GeneralInformation from './components/generalInformation'
 import Education from './components/education'
 import Experience from './components/experience'
-
+import Skill from './components/skill'
 
 
 class App extends Component {
@@ -17,6 +17,7 @@ class App extends Component {
         <Header />
 
         <GeneralInformation />
+        <Skill />
         <Education />
         <Experience />
 
