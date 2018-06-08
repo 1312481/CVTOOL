@@ -15,10 +15,10 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-
-        <GeneralInformation />
-        <Skill />
         <Education />
+        <GeneralInformation />
+        {/* <Skill /> */}
+    
         <Experience />
 
       </div>

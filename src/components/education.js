@@ -7,6 +7,7 @@ import deleteImage from '../assets/images/delete.svg'
 import { connect } from 'react-redux'
 import { profileFetchData } from '../actions/profile'
 import { profileUpdateData } from '../actions/profile'
+import plus from '../assets/images/plus.svg'
 import '../assets/styles/education.css'
 
 // const API = 'https://api.myjson.com/bins/eoigu'
@@ -28,18 +29,19 @@ class Education extends Component {
     nameEducationEditing(index, name) {
 
         if (name == 'name') {
-            let temp = { ...this.state.nameEducationEdited };
+            let temp = [...this.state.nameEducationEdited];
             temp[index] = !temp[index];
+            console.log(temp);
             this.setState({ nameEducationEdited: temp });
         }
         else if (name == 'major') {
-            let temp = { ...this.state.majorEducationEdited };
+            let temp = [...this.state.majorEducationEdited];
             temp[index] = !temp[index];
             this.setState({ majorEducationEdited: temp });
 
         }
         else if (name == 'graduated') {
-            let temp = { ...this.state.graduatedEducationEdited };
+            let temp = [...this.state.graduatedEducationEdited];
             temp[index] = !temp[index];
             this.setState({ graduatedEducationEdited: temp });
         }
@@ -49,7 +51,7 @@ class Education extends Component {
         if (e.key === 'Enter') {
             let value = { ...this.props.profile };
             value.education[index].name = e.target.value;
-            let temp = { ...this.state.nameEducationEdited };
+            let temp = [...this.state.nameEducationEdited];
             temp[index] = !temp[index];
             this.setState({ nameEducationEdited: temp });
             this.props.profileUpdate(value);
@@ -59,7 +61,7 @@ class Education extends Component {
         if (e.key === 'Enter') {
             let value = { ...this.props.profile };
             value.education[index].major = e.target.value;
-            let temp = { ...this.state.majorEducationEdited };
+            let temp = [...this.state.majorEducationEdited];
             temp[index] = !temp[index];
             this.setState({ majorEducationEdited: temp });
             this.props.profileUpdate(value);
@@ -69,7 +71,7 @@ class Education extends Component {
         if (e.key === 'Enter') {
             let value = { ...this.props.profile };
             value.education[index].gradutedTime = e.target.value;
-            let temp = { ...this.state.graduatedEducationEdited };
+            let temp = [...this.state.graduatedEducationEdited];
             temp[index] = !temp[index];
             this.setState({ graduatedEducationEdited: temp });
             this.props.profileUpdate(value);
@@ -79,14 +81,35 @@ class Education extends Component {
         if (window.confirm("Do you really want to delete this ?!?!")) {
             let value = { ...this.props.profile };
             value.education.splice(index, 1);
+
             this.props.profileUpdate(value);
-            this.forceUpdate();
+            // this.forceUpdate();
         }
 
 
 
     }
+    educationAdding() {
+        console.log(this.props.profile.education);
+        console.log(this.state.nameEducationEdited)
+    }
+    componentWillReceiveProps(nextProps) {
 
+        if (nextProps.profile !== this.props.profile) {
+
+            const length = nextProps.profile.education.length;
+            let projectResTemp = [];
+            for (let i = 0; i < length; i++) {
+                let temp = false;
+
+
+
+                projectResTemp.push(temp);
+            }
+            this.setState({ nameEducationEdited: projectResTemp })
+
+        }
+    }
 
 
 
@@ -115,7 +138,10 @@ class Education extends Component {
                         <table>
                             <thead>
                                 <tr className="table-custom">
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Name
+                                    <img onClick={() => this.educationAdding()} className="iconEdit" src={plus} />
+                                    </th>
+
                                     <th scope="col">Major</th>
                                     <th scope="col">Graduated Year</th>
                                 </tr>
@@ -126,7 +152,7 @@ class Education extends Component {
                                         <tr key={education.name.toString()}>
 
                                             {this.state.nameEducationEdited[index] ?
-                                                (<input class="inputChange form-control" type="text"  onKeyDown={(e) => this.handleKeyNameEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNameEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
                                                 (<td className="">
@@ -135,10 +161,11 @@ class Education extends Component {
 
                                                     <img onClick={() => this.nameEducationEditing(index, 'name')} className="iconEdit" src={pencil} />
                                                     <img onClick={() => this.educationDeleting(index)} className="iconEdit" src={deleteImage} />
+
                                                 </td>)
                                             }
                                             {this.state.majorEducationEdited[index] ?
-                                                (<input class="inputChange form-control"  type="text" onKeyDown={(e) => this.handleKeyMajorEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyMajorEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
                                                 (<td className="">
@@ -149,7 +176,7 @@ class Education extends Component {
                                                 </td>)
                                             }
                                             {this.state.graduatedEducationEdited[index] ?
-                                                (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyGraduatedEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
+                                                (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyGraduatedEducationPress(e, index)} placeholder="Moi ban nhap ten" />) :
 
 
                                                 (<td className="">

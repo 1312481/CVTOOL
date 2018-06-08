@@ -36,8 +36,7 @@ export function profile(state = [], action) {
 export function profileUpdate(state = [], action) {
     switch (action.type) {
         case 'PROFILE_UPDATE_DATA': {
-            console.log(state);
-            console.log(action);
+            console.log(action.profile)
             return Object.assign({}, state, {
                 profile: action.profile
               })

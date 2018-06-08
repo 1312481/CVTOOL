@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import pencil from '../assets/images/pencil.svg'
 import deleteImage from '../assets/images/delete.svg'
+import plus from '../assets/images/plus.svg'
 import { connect } from 'react-redux'
 import { profileFetchData } from '../actions/profile'
 import { profileUpdateData } from '../actions/profile'
@@ -35,10 +36,9 @@ class Experience extends Component {
     componentWillReceiveProps(nextProps) {
 
         if (nextProps.profile !== this.props.profile) {
-        
-            const a = nextProps.profile.experience.length;
+     
             let projectResTemp = [];
-            for (let i = 0; i < a; i++) {
+            for (let i = 0; i < nextProps.profile.experience.length; i++) {
                 let temp = [];
                 for (let j = 0; j < nextProps.profile.experience[i].responsibility.length; j++) {
 
@@ -216,6 +216,7 @@ class Experience extends Component {
                                                 (<td scope="col">{exp.projectName}
                                                     <img onClick={() => this.nameExperienceEditing(index, 'project')} className="iconEdit" src={pencil} />
                                                     <img onClick={() => this.nameExperienceDeleting(index)} className="iconEdit" src={deleteImage} />
+                                                    <img onClick={() => this.nameExperienceAdding(index)} className="iconEdit" src={plus} />
                                                 </td>
                                                 )
                                             }
