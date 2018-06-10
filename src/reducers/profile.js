@@ -1,20 +1,18 @@
+import * as ActionTypes from '../actions/profile'
 
-
-
-export function profileHasErrored(state = false, action) {
+export function isProfileError(state = false, action) {
     switch (action.type) {
-        case 'PROFILE_HAS_ERRORED':
+        case ActionTypes.IS_PROFILE_ERROR:
             return action.hasErrored;
         default:
             return state;
     }
 }
 
-export function profileIsLoaded(state = false, action) {
+export function isProfileLoaded(state = false, action) {
     switch (action.type) {
-        case 'PROFILE_IS_LOADED':
+        case ActionTypes.IS_PROFILE_LOADED:
             {
-
                 return action.isLoaded;
             }
         default:
@@ -22,39 +20,20 @@ export function profileIsLoaded(state = false, action) {
     }
 }
 
-
 export function profile(state = [], action) {
     switch (action.type) {
-        case 'PROFILE_FETCH_DATA_SUCCESS': {
-          
+        case ActionTypes.FETCH_PROFILE_DATA_SUCCESS: {
+            console.log(state);
+            console.log(action.profile)
             return action.profile;
         }
-        default:
-            return state;
-    }
-}
-export function profileUpdate(state = [], action) {
-    switch (action.type) {
-        case 'PROFILE_UPDATE_DATA': {
+        case ActionTypes.UPDATE_PROFILE_DATA: {
+            console.log(state);
             console.log(action.profile)
-            return Object.assign({}, state, {
+            return {...state,
                 profile: action.profile
-              })
+            }
             
-        }
-        default: {
-            console.log('return default');
-            return state;
-        }
-    }
-}
-
-
-
-export function nameEditing(state = false, action) {
-    switch (action.type) {
-        case 'NAME_IS_EDITING': {
-            return action.isBeingEdited;
         }
         default:
             return state;

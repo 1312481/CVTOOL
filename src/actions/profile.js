@@ -1,48 +1,37 @@
-export function profileHasErrored(bool){
+export const IS_PROFILE_ERROR = 'IS_PROFILE_ERROR'
+export const IS_PROFILE_LOADED = 'IS_PROFILE_LOADED'
+export const FETCH_PROFILE_DATA_SUCCESS = 'FETCH_PROFILE_DATA_SUCCESS'
+export const UPDATE_PROFILE_DATA = 'UPDATE_PROFILE_DATA'
+
+export function isProfileError(isError){
     return {
-        type: 'PROFILE_HAS_ERRORED',
-        hasErrored: bool
+        type: IS_PROFILE_ERROR,
+        isError
     };
 }
 
-
-export function profileIsLoaded(bool){
+export function isProfileLoaded(isLoaded){
     return {
-        type: 'PROFILE_IS_LOADED',
-        isLoaded: bool
-    };
-}
-export function nameEditing(bool){
-    return {
-        type: 'NAME_IS_EDITING',
-        isBeingEdited: bool
+        type: IS_PROFILE_LOADED,
+        isLoaded
     };
 }
 
-export function profileFetchDataSuccess(profile){
+export function fetchProfileDataSuccess(profile){
     return {
-        type: 'PROFILE_FETCH_DATA_SUCCESS',
+        type: FETCH_PROFILE_DATA_SUCCESS,
         profile
     };
 }
 
-export function profileUpdateData(profile){
+export function updateProfileData(profile){
     return {
-        type: 'PROFILE_UPDATE_DATA',
+        type: UPDATE_PROFILE_DATA,
         profile
     };
 }
 
-
-export function errorAfterFiveSeconds(){
-    return (dispatch) => {
-        setTimeout(() => {
-            dispatch(profileHasErrored(true));
-        }, 5000);
-    };
-}
-
-export function profileFetchData(url) {
+export function fetchProfileData(url) {
     return (dispatch) => {
   
         fetch(url)
@@ -56,13 +45,12 @@ export function profileFetchData(url) {
             .then((response) => response.json())
             .then((profile) => {
                 
-                dispatch(profileFetchDataSuccess(profile));
-                dispatch(profileIsLoaded(true));
+                dispatch(fetchProfileDataSuccess(profile));
+                dispatch(isProfileLoaded(true));
                
-              
                 }
             )
-            .catch(() => dispatch(profileHasErrored(true)));
+            .catch(() => dispatch(isProfileError(true)));
     }
 }
 

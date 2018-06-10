@@ -6,8 +6,7 @@ import pencil from '../assets/images/pencil.svg'
 import deleteImage from '../assets/images/delete.svg'
 import plus from '../assets/images/plus.svg'
 import { connect } from 'react-redux'
-import { profileFetchData } from '../actions/profile'
-import { profileUpdateData } from '../actions/profile'
+import * as actions from '../actions/profile'
 import '../assets/styles/education.css'
 import configureStore from '../store/configureStore';
 
@@ -159,7 +158,7 @@ class Experience extends Component {
             let value = { ...this.props.profile };
             value.experience.splice(index,1);
             this.props.profileUpdate(value);
-            this.forceUpdate();
+      
         }
         
     }
@@ -169,7 +168,7 @@ class Experience extends Component {
             let value = { ...this.props.profile };
             value.experience[index].responsibility.splice(resIndex,1);
             this.props.profileUpdate(value);
-            this.forceUpdate();
+      
         }
         
     }
@@ -180,11 +179,11 @@ class Experience extends Component {
 
 
     render() {
-        if (this.props.hasErrored) {
+        if (this.props.isProfileError) {
 
             return <div>Sorry! There was an error</div>;
         }
-        else if (!this.props.isLoaded) {
+        else if (!this.props.isProfileLoaded) {
 
             return <div>Loading...</div>;
         }
@@ -333,16 +332,14 @@ class Experience extends Component {
 const mapStateToProps = (state) => {
     return {
         profile: state.profile,
-        hasErrored: state.profileHasErrored,
-        isLoaded: state.profileIsLoaded,
-
-
+        isProfileError: state.isProfileError,
+        isProfileLoaded: state.isProfileLoaded,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        profileUpdate: (profile) => dispatch(profileUpdateData(profile))
+        profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
     };
 };
 
