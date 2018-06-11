@@ -8,6 +8,9 @@ import * as actions from '../actions/profile'
 import '../assets/styles/education.css'
 import configureStore from '../store/configureStore';
 import plus from "../assets/images/plus.svg";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
 
 class Skill extends Component {
   constructor(props) {
@@ -65,6 +68,9 @@ class Skill extends Component {
     let value = { ...this.props.profile };
     value.technicalSkill.push(tempSkill);
     this.props.profileUpdate(value);
+    toast.success('Adding Technical Skills Success!!!!', {
+      autoClose: 2000
+    });
   }
 
   renderProperInput(field, fieldName, index) {
@@ -101,6 +107,10 @@ class Skill extends Component {
   renderSkillContainer() {
     return (
       <div>
+        <ToastContainer
+          transition={Slide}
+          newestOnTop
+        />
         <div className=" maincontent">
           <div className="maincontent__header">Technical Skill
 

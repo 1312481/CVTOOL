@@ -38,6 +38,10 @@ tr{
     width: 100% !important;
     
 }
+.black-background{
+    background-color: #07C50E;
+    color: #07C50E;
+}
 
 @media print{
     .iconEdit{

@@ -10,10 +10,11 @@
     font-size: 2rem;
 }
 
-.cardcustom {
+.content__cardcustom {
     padding: 0px !important;
     border: 2px #AFB0B3 solid;
 }
+
 
 .content {
     margin: 2.6% !important;
@@ -47,12 +48,15 @@
     height: 100px;
 }
 .inputChange{
-    width: 100% !important;
+    
 }
 .card-custom{
     padding-top: 5px !important;
     padding-bottom: 5px !important;
     border: 1px solid black !important;
+}
+.personalInfo{
+    display: flex;
 }
 #personalInfo{
     border-right: none !important;

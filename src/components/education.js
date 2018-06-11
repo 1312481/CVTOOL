@@ -7,6 +7,9 @@ import { connect } from "react-redux";
 import * as actions from "../actions/profile";
 import plus from "../assets/images/plus.svg";
 import "../assets/styles/education.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
 
 class Education extends Component {
   constructor(props) {
@@ -56,7 +59,12 @@ class Education extends Component {
     tempEducation.gradutedTime = 'Default';
     let value = { ...this.props.profile };
     value.education.push(tempEducation);
+
     this.props.profileUpdate(value);
+    toast.success('Adding Experience Success!!!!', {
+      autoClose: 2000
+    });
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -110,6 +118,10 @@ class Education extends Component {
   renderEducationContainer() {
     return (
       <div>
+        <ToastContainer
+          transition={Slide}
+          newestOnTop
+        />
         <div className=" maincontent">
           <div className="maincontent__header">Education</div>
         </div>
@@ -134,8 +146,8 @@ class Education extends Component {
               {this.props.profile.education.map((education, index) => (
                 <tr key={education.name.toString() + index.toString()}>
                   {this.renderProperInput("nameEducationEdited", "name", index)}
-                  {this.renderProperInput("majorEducationEdited","major",index)}
-                  {this.renderProperInput("graduatedEducationEdited","gradutedTime",index)}
+                  {this.renderProperInput("majorEducationEdited", "major", index)}
+                  {this.renderProperInput("graduatedEducationEdited", "gradutedTime", index)}
                 </tr>
               ))}
             </tbody>
