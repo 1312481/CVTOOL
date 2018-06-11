@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from "react";
-
+import Error from './error'
+import Loading from './loading'
 import pencil from "../assets/images/pencil.svg";
 import deleteImage from "../assets/images/delete.svg";
 import { connect } from "react-redux";
 import * as actions from "../actions/profile";
 import plus from "../assets/images/plus.svg";
 import "../assets/styles/education.css";
-
-// const API = 'https://api.myjson.com/bins/eoigu'
 
 class Education extends Component {
   constructor(props) {
@@ -18,16 +17,15 @@ class Education extends Component {
       graduatedEducationEdited: []
     };
 
-    this.renderProperInput = this.renderProperInput.bind(this)
-    this.updateFieldData = this.updateFieldData.bind(this)
+
   }
 
   nameEducationEditing(index, field) {
-      let temp = [...this.state.nameEducationEdited];
-      temp[index] = !temp[index];
-      let newstate = {};
-      newstate[field] = temp;
-      this.setState(newstate);
+    let temp = [...this.state[field]];
+    temp[index] = !temp[index];
+    let newstate = {};
+    newstate[field] = temp;
+    this.setState(newstate);
   }
 
   updateFieldData(e, field, fieldName, index) {
@@ -47,114 +45,113 @@ class Education extends Component {
     if (window.confirm("Do you really want to delete this ?!?!")) {
       let value = { ...this.props.profile };
       value.education.splice(index, 1);
-
       this.props.profileUpdate(value);
-      // this.forceUpdate();
     }
   }
 
   educationAdding() {
-    console.log(this.props.profile.education);
-    console.log(this.state.nameEducationEdited);
+    let tempEducation = {};
+    tempEducation.name = 'Default';
+    tempEducation.major = 'Default';
+    tempEducation.gradutedTime = 'Default';
+    let value = { ...this.props.profile };
+    value.education.push(tempEducation);
+    this.props.profileUpdate(value);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.profile !== this.props.profile) {
       const length = nextProps.profile.education.length;
       let projectResTemp = [];
-      for (let i = 0; i < length; i++) {
+      for (let i = 0; i <= length; i++) {
         let temp = false;
 
         projectResTemp.push(temp);
       }
       this.setState({ nameEducationEdited: projectResTemp });
+      this.setState({ majorEducationEdited: projectResTemp });
+      this.setState({ graduatedEducationEdited: projectResTemp });
     }
   }
 
-  renderError() {
-    return <div>Sorry! There was an error</div>;
-  }
 
-  renderLoading() {
-    return <div>Loading...</div>;
-  }
 
   renderProperInput(field, fieldName, index) {
     return (
       <td>
-      {this.state[field][index] ?
-        <input
-          className="inputChange form-control"
-          type="text"
-          onKeyDown={e =>
-            this.updateFieldData(e, field, fieldName, index)
-          }
-          placeholder="Moi ban nhap ten"
-        /> :
-        <span className="">
-          {this.props.profile.education[index][fieldName]}
-
-          <img
-            onClick={() =>
-              this.nameEducationEditing(index, field)
-            }
-            className="iconEdit"
-            src={pencil}
+        {this.state[field][index] ? (
+          <input
+            className="inputChange form-control"
+            type="text"
+            onKeyDown={e => this.updateFieldData(e, field, fieldName, index)}
+            placeholder="Moi ban nhap ten"
           />
+        ) : (
+            <span className="">
+              {this.props.profile.education[index][fieldName]}
 
-          <img
-            onClick={() => this.educationDeleting(index)}
-            className="iconEdit"
-            src={deleteImage}
-          />
-        </span>
-      }
-      </td>)
+              <img
+                onClick={() => this.nameEducationEditing(index, field)}
+                className="iconEdit"
+                src={pencil}
+              />
+
+              <img
+                onClick={() => this.educationDeleting(index)}
+                className="iconEdit"
+                src={deleteImage}
+              />
+            </span>
+          )}
+      </td>
+    );
   }
 
   renderEducationContainer() {
-    return <div>
-    <div className=" maincontent">
-      <div className="maincontent__header">Education</div>
-    </div>
-    <div className="maintable">
-      <table>
-        <thead>
-          <tr className="table-custom">
-            <th scope="col">
-              Name
-              <img
-                onClick={() => this.educationAdding()}
-                className="iconEdit"
-                src={plus}
-              />
-            </th>
+    return (
+      <div>
+        <div className=" maincontent">
+          <div className="maincontent__header">Education</div>
+        </div>
+        <div className="maintable">
+          <table>
+            <thead>
+              <tr className="table-custom">
+                <th scope="col">
+                  Name
+                  <img
+                    onClick={() => this.educationAdding()}
+                    className="iconEdit"
+                    src={plus}
+                  />
+                </th>
 
-            <th scope="col">Major</th>
-            <th scope="col">Graduated Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.profile.education.map((education, index) =>
-              <tr key={education.name.toString()}>
-                {this.renderProperInput('nameEducationEdited', 'name', index)}
-                {this.renderProperInput('majorEducationEdited', 'major', index)}
-                {this.renderProperInput('graduatedEducationEdited', 'gradutedTime', index)}
+                <th scope="col">Major</th>
+                <th scope="col">Graduated Year</th>
               </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  </div>
+            </thead>
+            <tbody>
+              {this.props.profile.education.map((education, index) => (
+                <tr key={education.name.toString() + index.toString()}>
+                  {this.renderProperInput("nameEducationEdited", "name", index)}
+                  {this.renderProperInput("majorEducationEdited","major",index)}
+                  {this.renderProperInput("graduatedEducationEdited","gradutedTime",index)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
   }
 
   render() {
     if (this.props.isProfileError) {
-      return this.renderError()
+      return <Error />
     } else if (!this.props.isProfileLoaded) {
-      return this.renderLoading()
+      return <Loading />
     } else {
-      return this.renderEducationContainer()
+      return this.renderEducationContainer();
     }
   }
 }

@@ -9,18 +9,22 @@ import Skill from './components/skill'
 
 
 class App extends Component {
-  
-  
+
+
   render() {
     return (
       <div className="App">
-        <Header />
-        <Education />
-        <GeneralInformation />
-        {/* <Skill /> */}
-    
+        {/* <Header /> */}
         <Experience />
 
+        <GeneralInformation />
+        <Skill />
+        <Education />
+ 
+        
+
+
+       
       </div>
     );
   }

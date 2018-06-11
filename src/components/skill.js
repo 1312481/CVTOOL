@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import pencil from '../assets/images/pencil.svg'
 import deleteImage from '../assets/images/delete.svg'
 import { connect } from 'react-redux'
+import Error from './error'
+import Loading from './loading'
 import * as actions from '../actions/profile'
 import '../assets/styles/education.css'
 import configureStore from '../store/configureStore';
+import plus from "../assets/images/plus.svg";
 
 class Skill extends Component {
   constructor(props) {
@@ -14,17 +17,36 @@ class Skill extends Component {
       skillDetailEdited: []
     }
   }
-  skillEditing(index, name) {
-    if (name == 'name') {
-      let temp = { ...this.state.skillNameEdited };
-      temp[index] = !temp[index];
-      this.setState({ skillNameEdited: temp });
-    }
-    else if (name == 'detail') {
-      let temp = { ...this.state.skillDetailEdited };
-      temp[index] = !temp[index];
-      this.setState({ skillDetailEdited: temp });
+  nameSkillEditing(index, field) {
+    let temp = [...this.state[field]];
+    temp[index] = !temp[index];
+    let newstate = {};
+    newstate[field] = temp;
+    this.setState(newstate);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile !== this.props.profile) {
+      const length = nextProps.profile.technicalSkill.length;
+      let projectResTemp = [];
+      for (let i = 0; i <= length; i++) {
+        let temp = false;
+        projectResTemp.push(temp);
+      }
+      this.setState({ skillNameEdited: projectResTemp });
+      this.setState({ skillDetailEdited: projectResTemp });
+    }
+  }
+  updateFieldData(e, field, fieldName, index) {
+    if (e.key === "Enter") {
+      let value = { ...this.props.profile };
+      value.technicalSkill[index][fieldName] = e.target.value;
+      let temp = [...this.state[field]];
+      temp[index] = !temp[index];
+      let newstate = {};
+      newstate[field] = temp;
+      this.setState(newstate);
+      this.props.profileUpdate(value);
     }
   }
   skillDeleting(index) {
@@ -35,114 +57,105 @@ class Skill extends Component {
       this.forceUpdate();
     }
   }
-  handleKeyNameSkillPress(e, index) {
-    if (e.key === 'Enter') {
-      let value = { ...this.props.profile };
-      value.technicalSkill[index].name = e.target.value;
-      let temp = { ...this.state.skillNameEdited };
-      temp[index] = !temp[index];
-      this.setState({ skillNameEdited: temp });
-      this.props.profileUpdate(value);
-    }
-  }
-  handleKeyDetailSkillPress(e, index) {
-    if (e.key === 'Enter') {
-      let value = { ...this.props.profile };
-      value.technicalSkill[index].detail = e.target.value;
-      let temp = { ...this.state.skillDetailEdited };
-      temp[index] = !temp[index];
-      this.setState({ skillDetailEdited: temp });
-      this.props.profileUpdate(value);
-    }
+  skillAdding() {
+    let tempSkill = {};
+    tempSkill.name = 'Default';
+    tempSkill.detail = 'Default';
+
+    let value = { ...this.props.profile };
+    value.technicalSkill.push(tempSkill);
+    this.props.profileUpdate(value);
   }
 
+  renderProperInput(field, fieldName, index) {
+    return (
+      <td>
+        {this.state[field][index] ? (
+          <input
+            className="inputChange form-control"
+            type="text"
+            onKeyDown={e => this.updateFieldData(e, field, fieldName, index)}
+            placeholder="Moi ban nhap ten"
+          />
+        ) : (
+            <span className="">
+              {this.props.profile.technicalSkill[index][fieldName]}
 
+              <img
+                onClick={() => this.nameSkillEditing(index, field)}
+                className="iconEdit"
+                src={pencil}
+              />
+
+              <img
+                onClick={() => this.skillDeleting(index)}
+                className="iconEdit"
+                src={deleteImage}
+              />
+            </span>
+          )}
+      </td>
+    )
+  }
+
+  renderSkillContainer() {
+    return (
+      <div>
+        <div className=" maincontent">
+          <div className="maincontent__header">Technical Skill
+
+          </div>
+        </div>
+        <div className="maintable">
+          <table>
+            <thead>
+              <tr className="table-custom">
+                <th scope="col">Skill
+                <img
+                    onClick={() => this.skillAdding()}
+                    className="iconEdit"
+                    src={plus}
+                  />
+                </th>
+                <th scope="col">Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.profile.technicalSkill.map((tech, index) => {
+                return (
+
+                  <tr key={tech.name.toString() + index.toString()}>
+                    {this.renderProperInput("skillNameEdited", "name", index)}
+                    {this.renderProperInput("skillDetailEdited", "detail", index)}
+
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>)
+  }
 
 
 
   render() {
     if (this.props.isProfileError) {
 
-      return <div>Sorry! There was an error</div>;
+      return <Error />
     }
     else if (!this.props.isProfileLoaded) {
 
-      return <div>Loading...</div>;
+      return <Loading />
     }
     else {
 
 
-
-
-      return (
-        <div>
-          <div className=" maincontent">
-            <div className="maincontent__header">Technical Skill</div>
+      return this.renderSkillContainer();
 
 
 
 
-
-          </div>
-          <div className="maintable">
-            <table>
-              <thead>
-                <tr className="table-custom">
-                  <th scope="col">Skill</th>
-                  <th scope="col">Detail</th>
-                </tr>
-              </thead>
-              <tbody>
-
-
-                {this.props.profile.technicalSkill.map((tech, index) => {
-                  return (
-                    <tr key={tech.name.toString() + index.toString()}>
-
-                      {this.state.skillNameEdited[index] ?
-                        (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNameSkillPress(e, index)} placeholder="Moi ban nhap ten" />) :
-
-
-                        (<td className="">
-
-                          {tech.name}
-
-                          <img onClick={() => this.skillEditing(index, 'name')} className="iconEdit" src={pencil} />
-                          <img onClick={() => this.skillDeleting(index)} className="iconEdit" src={deleteImage} />
-                        </td>)
-                      }
-                      {this.state.skillDetailEdited[index] ?
-                        (<input class="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyDetailSkillPress(e, index)} placeholder="Moi ban nhap ten" />) :
-
-
-                        (<td className="">
-
-                          {tech.detail}
-
-                          <img onClick={() => this.skillEditing(index, 'detail')} className="iconEdit" src={pencil} />
-
-                        </td>)
-                      }
-
-
-
-
-
-                    </tr>
-                  )
-                })}
-
-
-
-              </tbody>
-
-
-
-            </table>
-          </div>
-        </div>
-
-      );
     }
 
   }

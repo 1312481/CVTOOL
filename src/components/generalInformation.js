@@ -243,7 +243,7 @@ class GeneralInformation extends Component {
     }
 
     else {
-      console.log("reloading");
+
       return (
 
         <div >
@@ -454,7 +454,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (url) => dispatch(actions.fetchProfileData(url)),
-    updateProfile: (profile) => dispatch(actions.updateProfileData(profile))
+    profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
   };
 };
 
