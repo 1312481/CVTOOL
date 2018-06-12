@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
 import { nameEditing } from '../reducers/profile';
 
-// const API = 'https://api.myjson.com/bins/eoigu'
+
 
 class GeneralInformation extends Component {
   constructor(props) {
@@ -29,7 +29,6 @@ class GeneralInformation extends Component {
     }
   }
   nameEditing(field) {
-    console.log(this.props.profile.skillSummary.englishLevel);
     let temp = { ...this.state };
     temp[field] = !temp[field];
     this.setState(temp);
@@ -39,29 +38,39 @@ class GeneralInformation extends Component {
 
     if (e.key === 'Enter') {
       let tempProfile = { ...this.props.profile };
+      let key = this.props.profile._id;
       tempProfile.personalInfo[fieldName] = e.target.value;
       let tempState = { ...this.state };
       tempState[field] = !tempState[field];
       this.setState(tempState);
       this.props.profileUpdate(tempProfile);
+
+      fetch('http://localhost:3001/api/updategeneralinfomation', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          profile: tempProfile.personalInfo,
+          key: key
+        })
+      })
     }
   }
 
   checkTextarea(fieldName) {
     if (fieldName === 'personalStatement' || fieldName === 'skill') {
-      console.log(fieldName)
       return true
     }
     else return false;
   }
   checkSkillSummary(fieldName) {
     if (fieldName === 'englishLevel' || fieldName === 'skill') {
-      console.log(fieldName)
       return true;
     }
 
     else {
-      console.log(fieldName)
       return false
     };
   }
@@ -93,15 +102,19 @@ class GeneralInformation extends Component {
           this.state[field] ?
             (
               this.checkTextarea(fieldName) ?
-                (<textarea className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.skillSummary[fieldName]} />)
+                (<textarea className="inputChange form-control" type="text" 
+                onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} 
+                placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
                 :
-                (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.skillSummary[fieldName]} />)
+                (<input className="inputChange form-control" type="text" 
+                onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} 
+                placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
             )
             :
             (
             this.checkSkillSummary(fieldName) ?
             (<div className="information__container__content">
-                {this.props.profile.skillSummary[fieldName]}
+                {this.props.profile.personalInfo[fieldName]}
                 <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
             </div>) :
               (<div className="information__container__content" >
@@ -177,7 +190,7 @@ class GeneralInformation extends Component {
 
   }
   componentDidMount() {
-    this.props.fetchData('https://api.myjson.com/bins/on16i');
+    this.props.fetchData('http://localhost:3001/api');
 
   }
 

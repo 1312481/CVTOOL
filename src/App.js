@@ -16,12 +16,15 @@ class App extends Component {
       <div className="App">
         <Header />
         <GeneralInformation />
+        <Education />
+        
+
 
         <Experience />
 
 
         <Skill />
-        <Education />
+     
 
 
 

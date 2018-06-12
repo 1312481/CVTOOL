@@ -23,17 +23,19 @@ export function isProfileLoaded(state = false, action) {
 export function profile(state = [], action) {
     switch (action.type) {
         case ActionTypes.FETCH_PROFILE_DATA_SUCCESS: {
-            console.log(state);
-            console.log(action.profile)
-            return action.profile;
+            console.log(action.profile[0])
+            return action.profile[0];
         }
         case ActionTypes.UPDATE_PROFILE_DATA: {
-            console.log(state);
-            console.log(action.profile)
+
             return {...state,
                 profile: action.profile
             }
             
+        }
+        case ActionTypes.FETCH_KEY_ID: {
+            console.log(action);
+            return action.key;
         }
         default:
             return state;
