@@ -29,6 +29,7 @@ class GeneralInformation extends Component {
     }
   }
   nameEditing(field) {
+    console.log(this.props.profile.skillSummary.englishLevel);
     let temp = { ...this.state };
     temp[field] = !temp[field];
     this.setState(temp);
@@ -46,54 +47,69 @@ class GeneralInformation extends Component {
     }
   }
 
-  checkHeaderType(fieldName) {
-    if (fieldName === 'name' || fieldName === 'currentPosition') {
-      return true
-    }
-    else return false
-  }
   checkTextarea(fieldName) {
     if (fieldName === 'personalStatement' || fieldName === 'skill') {
+      console.log(fieldName)
       return true
     }
     else return false;
   }
-  checkSkillSummary(field, fieldName) {
+  checkSkillSummary(fieldName) {
     if (fieldName === 'englishLevel' || fieldName === 'skill') {
-      return (
-        <div>
-          {this.props.profile.skillSummary[fieldName]}
-          <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
-        </div>
-      )
+      console.log(fieldName)
+      return true;
     }
 
-    else return (
-      <div>
-        {this.props.profile.personalInfo[fieldName]}
-        <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
-      </div>
-    );
+    else {
+      console.log(fieldName)
+      return false
+    };
   }
 
-  renderProperInput(field, fieldName) {
+  renderProperInputHeader(field, fieldName){
+    return(
+      <div>
+         {
+          this.state[field] ?
+            (
+              (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName]} />)
+            )
+            :
+            (
+              <div >
+                {this.props.profile.personalInfo[fieldName]}
+                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+              </div>
+            )
+
+        }
+      </div>
+    )
+  }
+  renderProperInputPersonalInformation(field, fieldName) {
     return (
-      <div >
+      <div className="information__container__content">
         {
           this.state[field] ?
             (
               this.checkTextarea(fieldName) ?
-                (<textarea className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder="Moi ban nhap ten" />)
+                (<textarea className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.skillSummary[fieldName]} />)
                 :
-                (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder="Moi ban nhap ten" />)
+                (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.skillSummary[fieldName]} />)
             )
             :
-            (<div className={this.checkHeaderType(fieldName) ? ("card-title card-title-custom") : ("card-title")}>
+            (
+            this.checkSkillSummary(fieldName) ?
+            (<div className="information__container__content">
+                {this.props.profile.skillSummary[fieldName]}
+                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+            </div>) :
+              (<div className="information__container__content" >
+                {this.props.profile.personalInfo[fieldName]}
+                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+              </div>)
+            )
 
-              {this.checkSkillSummary(field, fieldName)}
-
-
-            </div>)
         }
       </div>
     )
@@ -110,10 +126,10 @@ class GeneralInformation extends Component {
         </div>
         <div className="row content">
           <div className="card content__cardcustom col-4">
-            <div className="card-body card-body-custom abc">
-              <div className="content__cardContent">
-                {this.renderProperInput('nameEdited', 'name')}
-                {this.renderProperInput('positionEdited', 'currentPosition')}
+            <div className="card-body content__cardcustom__body">
+              <div className="content__cardcustom__cardContent">
+                {this.renderProperInputHeader('nameEdited', 'name')}
+                {this.renderProperInputHeader('positionEdited', 'currentPosition')}
               </div>
             </div>
             <img className="card-img-top" src={profile} />
@@ -125,20 +141,21 @@ class GeneralInformation extends Component {
                 <h4 className="card-title information__header">Personal Information</h4>
                 <div className="card-text">
 
-                  <div class="personalInfo">Phone Number: </div>{this.renderProperInput('phoneEdited', 'phoneNumber')}
-                  Address: {this.renderProperInput('addressEdited', 'address')}
-                  Email: {this.renderProperInput('emailEdited', 'email')}
-                  Facebook: {this.renderProperInput('facebookEdited', 'facebook')}
-                  Linkedin: {this.renderProperInput('linkedinEdited', 'linkedin')}
-                  Github: {this.renderProperInput('githubEdited', 'github')}
-                  Portfolio: {this.renderProperInput('portfolioEdited', 'portfolio')}
+                  <div>Phone Number:  {this.renderProperInputPersonalInformation('phoneEdited', 'phoneNumber')}</div>
+                  <div>Address:  {this.renderProperInputPersonalInformation('addressEdited', 'address')}</div>
+                  <div>Email:  {this.renderProperInputPersonalInformation('emailEdited', 'email')}</div>
+                  <div>Facebook:  {this.renderProperInputPersonalInformation('facebookEdited', 'facebook')}</div>
+                  <div>Linkedin:  {this.renderProperInputPersonalInformation('linkedinEdited', 'linkedin')}</div>
+                  <div>Github:  {this.renderProperInputPersonalInformation('githubEdited', 'github')}</div>
+                  <div>Portfolio:  {this.renderProperInputPersonalInformation('portfolioEdited', 'portfolio')}</div>
+
                 </div>
               </div>
 
               <div className="card col-6 card-custom">
                 <h4 className="card-title information__header">Personal Statement</h4>
                 <div className="card-text">
-                  {this.renderProperInput('personalStatementEdited', 'personalStatement')}
+                  {this.renderProperInputPersonalInformation('personalStatementEdited', 'personalStatement')}
                 </div>
               </div>
             </div>
@@ -146,10 +163,10 @@ class GeneralInformation extends Component {
               <div className="card col-12 card-custom">
                 <h4 className="card-title information__header">Skill Summary</h4>
                 <div>
-                  {this.renderProperInput('englishLevelEdited', 'englishLevel')}
+                  English level: {this.renderProperInputPersonalInformation('englishLevelEdited', 'englishLevel')}
                 </div>
                 <div>
-                  {this.renderProperInput('skillEdited', 'skill')}
+                  Summary: {this.renderProperInputPersonalInformation('skillEdited', 'skill')}
                 </div>
               </div>
             </div>
