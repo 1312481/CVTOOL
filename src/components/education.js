@@ -10,6 +10,7 @@ import "../assets/styles/education.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import POSTAPI from './postAPI'
 
 class Education extends Component {
   constructor(props) {
@@ -30,10 +31,12 @@ class Education extends Component {
     newstate[field] = temp;
     this.setState(newstate);
   }
+  
 
   updateFieldData(e, field, fieldName, index) {
     if (e.key === "Enter") {
       let value = { ...this.props.profile };
+      let key = this.props.profile._id;
       value.education[index][fieldName] = e.target.value;
       let temp = [...this.state[field]];
       temp[index] = !temp[index];
@@ -41,14 +44,18 @@ class Education extends Component {
       newstate[field] = temp;
       this.setState(newstate);
       this.props.profileUpdate(value);
+      POSTAPI('http://localhost:3001/api/updateeducation',value.education,key);
+    
     }
   }
 
   educationDeleting(index) {
     if (window.confirm("Do you really want to delete this ?!?!")) {
       let value = { ...this.props.profile };
+      let key = this.props.profile._id;
       value.education.splice(index, 1);
       this.props.profileUpdate(value);
+      POSTAPI('http://localhost:3001/api/updateeducation',value.education,key);
     }
   }
 
@@ -58,10 +65,12 @@ class Education extends Component {
     tempEducation.major = 'Default';
     tempEducation.gradutedTime = 'Default';
     let value = { ...this.props.profile };
+    let key = this.props.profile._id;
     value.education.push(tempEducation);
 
     this.props.profileUpdate(value);
-    toast.success('Adding Experience Success!!!!', {
+    POSTAPI('http://localhost:3001/api/updateeducation',value.education,key);
+    toast.success('Adding Education Success!!!!', {
       autoClose: 2000
     });
 

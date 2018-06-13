@@ -43,6 +43,7 @@ class Skill extends Component {
   updateFieldData(e, field, fieldName, index) {
     if (e.key === "Enter") {
       let value = { ...this.props.profile };
+      let key = this.props.profile._id;
       value.technicalSkill[index][fieldName] = e.target.value;
       let temp = [...this.state[field]];
       temp[index] = !temp[index];
@@ -50,14 +51,39 @@ class Skill extends Component {
       newstate[field] = temp;
       this.setState(newstate);
       this.props.profileUpdate(value);
+      fetch('http://localhost:3001/api/updatetechnicalskill', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          profile: value.technicalSkill,
+          key: key
+        })
+      })
     }
+
+
   }
   skillDeleting(index) {
     if (window.confirm("Do you really want to delete this ?!?!")) {
       let value = { ...this.props.profile };
+      let key = this.props.profile._id;
       value.technicalSkill.splice(index, 1);
       this.props.profileUpdate(value);
       this.forceUpdate();
+      fetch('http://localhost:3001/api/updatetechnicalskill', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          profile: value.technicalSkill,
+          key: key
+        })
+      })
     }
   }
   skillAdding() {
@@ -66,11 +92,23 @@ class Skill extends Component {
     tempSkill.detail = 'Default';
 
     let value = { ...this.props.profile };
+    let key = this.props.profile._id;
     value.technicalSkill.push(tempSkill);
     this.props.profileUpdate(value);
     toast.success('Adding Technical Skills Success!!!!', {
       autoClose: 2000
     });
+    fetch('http://localhost:3001/api/updatetechnicalskill', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        profile: value.technicalSkill,
+        key: key
+      })
+    })
   }
 
   renderProperInput(field, fieldName, index) {

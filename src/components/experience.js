@@ -14,6 +14,7 @@ import Loading from './loading'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import POSTAPI from './postAPI'
 
 
 
@@ -62,102 +63,100 @@ class Experience extends Component {
 
         }
     }
-    experienceEditing(index, field) {
-        let temp = [...this.state[field]];
-        temp[index] = !temp[index];
-        let newstate = {};
-        newstate[field] = temp;
-        this.setState(newstate);
-
+    experienceEditing(index, field, resIndex) {
+        if (typeof (resIndex) === 'number') {
+            let temp = { ...this.state.projectResEdited };
+            temp[index][resIndex] = !temp[index][resIndex];
+            this.setState({ projectResEdited: temp });
+        }
+        else {
+            let temp = [...this.state[field]];
+            temp[index] = !temp[index];
+            let newstate = {};
+            newstate[field] = temp;
+            this.setState(newstate);
+        }
 
     }
 
 
     updateFieldData(e, field, fieldName, index, resIndex) {
-
+        let value = { ...this.props.profile };
+        let key = this.props.profile._id;
         if (e.key === 'Enter') {
-            let value = { ...this.props.profile };
-            if(resIndex){
+            if (typeof (resIndex) === 'number') {
                 value.experience[index].responsibility[resIndex] = e.target.value;
                 let temp = { ...this.state.projectResEdited };
                 temp[index][resIndex] = !temp[index][resIndex];
                 this.setState({ projectResEdited: temp });
             }
-            else{
+            else {
                 value.experience[index][fieldName] = e.target.value;
                 let temp = { ...this.state[field] };
                 temp[index] = !temp[index];
                 this.setState({ field: temp });
-                
+
             }
-            this.props.profileUpdate(value);
-        }
-    }
-
-    resEditing(expIndex, resIndex, name) {
-        let temp = { ...this.state.projectResEdited };
-        temp[expIndex][resIndex] = !temp[expIndex][resIndex];
-        this.setState({ projectResEdited: temp });
-    }
-
-
-    handleKeyProjectResPress(e, expIndex, resIndex) {
-        if (e.key === 'Enter') {
-            let value = { ...this.props.profile };
-            value.experience[expIndex].responsibility[resIndex] = e.target.value;
-            let temp = { ...this.state.projectResEdited };
-            temp[expIndex][resIndex] = !temp[expIndex][resIndex];
-            this.setState({ projectResEdited: temp });
-            this.props.profileUpdate(value);
-        }
-    }
-
-    experienceDeleting(index) {
-        if (window.confirm("Do you really want to delete this ?!?!")) {
-            let value = { ...this.props.profile };
-            value.experience.splice(index, 1);
+            POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
             this.props.profileUpdate(value);
 
         }
-
     }
 
-    nameExperienceResDeleting(index, resIndex) {
-        if (window.confirm("Do you really want to delete this ?!?!")) {
-            let value = { ...this.props.profile };
-            value.experience[index].responsibility.splice(resIndex, 1);
-            this.props.profileUpdate(value);
 
-        }
-
-    }
-    experienceAdding() {
-        let tempExp = {};
-        let tempExpRes = [];
-        tempExp.position = 'Default';
-        tempExp.companyName = 'Default';
-        tempExp.projectName = 'Default';
-        tempExp.projectDescription = 'Default';
-        tempExp.technicalSkills = 'Default';
-        tempExp.time = 'Default';
-        tempExp.responsibility = ['Default', 'Default'];
+    experienceDeleting(index, resIndex) {
         let value = { ...this.props.profile };
-        value.experience.push(tempExp);
+        let key = this.props.profile._id;
+        if (typeof (resIndex) === 'number') {
+            if (window.confirm("Do you really want to delete this ?!?!")) {
+                value.experience[index].responsibility.splice(resIndex, 1);
+            }
+        }
+        else {
+            if (window.confirm("Do you really want to delete this ?!?!")) {
+                value.experience.splice(index, 1);
+            }
+        }
+        POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
         this.props.profileUpdate(value);
-        toast.success('Adding Experience Success!!!!', {
-            autoClose: 2000
-        });
+    }
+
+    experienceAdding(resIndex) {
+        let defaultName = 'Default';
+        if (typeof (resIndex) === 'number') {
+         
+            let value = { ...this.props.profile };
+            let key = this.props.profile._id;
+            value.experience[resIndex].responsibility.push(defaultName);
+            POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
+            this.props.profileUpdate(value);
+            toast.success('Adding Responsibility Success!!!!', {
+                autoClose: 2000
+            });
+        }
+        else {
+            let tempExp = {};
+            let tempExpRes = [];
+            tempExp.position = defaultName;
+            tempExp.companyName = defaultName;
+            tempExp.projectName = defaultName;
+            tempExp.projectDescription = defaultName;
+            tempExp.technicalSkills = defaultName;
+            tempExp.time = defaultName;
+            tempExp.responsibility = [defaultName, defaultName];
+            let value = { ...this.props.profile };
+            let key = this.props.profile._id;
+            value.experience.push(tempExp);
+            POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
+            this.props.profileUpdate(value);
+
+            toast.success('Adding Experience Success!!!!', {
+                autoClose: 2000
+            });
+        }
 
     }
-    resAdding(index) {
-        let a = 'Default';
-        let value = { ...this.props.profile };
-        value.experience[index].responsibility.push(a);
-        this.props.profileUpdate(value);
-        toast.success('Adding Responsibility Success!!!!', {
-            autoClose: 2000
-        });
-    }
+ 
 
 
 
@@ -175,7 +174,7 @@ class Experience extends Component {
                     </div>
 
                 </div>
-                
+
                 {this.props.profile.experience.map((exp, index) => {
                     return (
                         <div className="maintable" key={exp.toString() + index.toString()}>
@@ -230,7 +229,7 @@ class Experience extends Component {
                                     </tr>
                                     <tr>
                                         <td scope="col">My Responsibility
-                                        <img onClick={() => this.resAdding(index)} className="iconEdit" src={plus} />
+                                        <img onClick={() => this.experienceAdding(index)} className="iconEdit" src={plus} />
                                         </td>
                                         <td scope="col">
                                             <ul>
@@ -242,11 +241,11 @@ class Experience extends Component {
 
                                                             {
                                                                 this.state.projectResEdited[index][resIndex] ?
-                                                                    (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyProjectResPress(e,  index, resIndex)} placeholder="Moi ban nhap ten" />) :
+                                                                    (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectResEdited', 'responsibility', index, resIndex)} placeholder="Moi ban nhap ten" />) :
 
                                                                     (<div scope="col">{exp.responsibility[resIndex]}
-                                                                        <img onClick={() => this.resEditing(index, resIndex, 'res')} className="iconEdit" src={pencil} />
-                                                                        <img onClick={() => this.nameExperienceResDeleting(index, resIndex)} className="iconEdit" src={deleteImage} />
+                                                                        <img onClick={() => this.experienceEditing(index, 'res', resIndex)} className="iconEdit" src={pencil} />
+                                                                        <img onClick={() => this.experienceDeleting(index, resIndex)} className="iconEdit" src={deleteImage} />
                                                                     </div>
                                                                     )
                                                             }

@@ -7,7 +7,7 @@ import pencil from '../assets/images/pencil.svg'
 import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
 import { nameEditing } from '../reducers/profile';
-
+import POSTAPI from './postAPI'
 
 
 class GeneralInformation extends Component {
@@ -37,25 +37,16 @@ class GeneralInformation extends Component {
   handleKeyNamePress(e, field, fieldName) {
 
     if (e.key === 'Enter') {
-      let tempProfile = { ...this.props.profile };
+      let value = { ...this.props.profile };
       let key = this.props.profile._id;
-      tempProfile.personalInfo[fieldName] = e.target.value;
+      value.personalInfo[fieldName] = e.target.value;
       let tempState = { ...this.state };
       tempState[field] = !tempState[field];
       this.setState(tempState);
-      this.props.profileUpdate(tempProfile);
-
-      fetch('http://localhost:3001/api/updategeneralinfomation', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          profile: tempProfile.personalInfo,
-          key: key
-        })
-      })
+      POSTAPI('http://localhost:3001/api/updategeneralinfomation',value.personalInfo,key);
+      this.props.profileUpdate(value);
+ 
+     
     }
   }
 
