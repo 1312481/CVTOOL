@@ -6,7 +6,7 @@ import GeneralInformation from './components/generalInformation'
 import Education from './components/education'
 import Experience from './components/experience'
 import Skill from './components/skill'
-
+import Login from './components/login'
 
 class App extends Component {
 
@@ -14,12 +14,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-        <Education />
-        <Experience />
+        <Login />
+        {/* <Education />
+        <Experience /> */}
 
         {/* <Header /> */}
-        <GeneralInformation />
+        {/* <GeneralInformation />
 
 
 
@@ -27,7 +27,7 @@ class App extends Component {
 
 
 
-        <Skill />
+        <Skill /> */}
 
 
 
