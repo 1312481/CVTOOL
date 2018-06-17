@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, { Component,PropTypes } from "react";
 import "../assets/styles/login.css";
 import logo from "../assets/images/nashtech.jpg";
 import FileReaderInput from "react-file-reader-input";
+import { connect } from 'react-redux';
+import * as actions from '../actions/profile';
 
-class App extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +18,7 @@ class App extends Component {
       const [e, file] = result;
       console.log(e.target.result);
       this.setState({ filename: file.name });
+      this.props.profileUpdate(e.target.result);
     });
   };
 
@@ -73,5 +76,17 @@ class App extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profile
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
 
-export default App;
+    profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
+  };
+};
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);
