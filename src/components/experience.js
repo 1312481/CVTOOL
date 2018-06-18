@@ -38,30 +38,27 @@ class Experience extends Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillMount() {
+        let projectResTemp = [];
+        let projectTemp = [];
+        for (let i = 0; i < this.props.profile.experience.length; i++) {
+            let tempRes = [];
 
-        if (nextProps.profile !== this.props.profile) {
+            for (let j = 0; j < this.props.profile.experience[i].responsibility.length; j++) {
 
-            let projectResTemp = [];
-            let projectTemp = [];
-            for (let i = 0; i < nextProps.profile.experience.length; i++) {
-                let tempRes = [];
-
-                for (let j = 0; j < nextProps.profile.experience[i].responsibility.length; j++) {
-
-                    tempRes.push(false);
-                }
-                projectTemp.push(false);
-                projectResTemp.push(tempRes);
+                tempRes.push(false);
             }
-            this.setState({ projectResEdited: projectResTemp })
-            this.setState({ projectNameEdited: projectTemp })
-            this.setState({ projectDurationEdited: projectTemp })
-            this.setState({ projectPositionEdited: projectTemp })
-            this.setState({ projectDescriptionEdited: projectTemp })
-            this.setState({ projectTechnologyEdited: projectTemp })
-
+            projectTemp.push(false);
+            projectResTemp.push(tempRes);
         }
+        this.setState({ projectResEdited: projectResTemp })
+        this.setState({ projectNameEdited: projectTemp })
+        this.setState({ projectDurationEdited: projectTemp })
+        this.setState({ projectPositionEdited: projectTemp })
+        this.setState({ projectDescriptionEdited: projectTemp })
+        this.setState({ projectTechnologyEdited: projectTemp })
+
+
     }
     experienceEditing(index, field, resIndex) {
         if (typeof (resIndex) === 'number') {
@@ -124,7 +121,7 @@ class Experience extends Component {
     experienceAdding(resIndex) {
         let defaultName = 'Default';
         if (typeof (resIndex) === 'number') {
-         
+
             let value = { ...this.props.profile };
             let key = this.props.profile._id;
             value.experience[resIndex].responsibility.push(defaultName);
@@ -156,7 +153,7 @@ class Experience extends Component {
         }
 
     }
- 
+
 
 
 
@@ -283,15 +280,15 @@ class Experience extends Component {
 
 
     render() {
-        if (this.props.isProfileError) {
-            return <Error />
-        }
-        else if (!this.props.isProfileLoaded) {
-            return <Loading />
-        }
-        else {
-            return this.renderExperienceContainer();
-        }
+        // if (this.props.isProfileError) {
+        //     return <Error />
+        // }
+        // else if (!this.props.isProfileLoaded) {
+        //     return <Loading />
+        // }
+
+        return this.renderExperienceContainer();
+
 
     }
 }

@@ -1,5 +1,7 @@
-import React, { Component,PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
+import { withRouter } from 'react-router-dom'
 import "../assets/styles/login.css";
+import { Redirect  } from 'react-router';
 import logo from "../assets/images/nashtech.jpg";
 import FileReaderInput from "react-file-reader-input";
 import { connect } from 'react-redux';
@@ -16,11 +18,15 @@ class Login extends Component {
   handleChange = (e, results) => {
     results.forEach(result => {
       const [e, file] = result;
-      console.log(e.target.result);
       this.setState({ filename: file.name });
-      this.props.profileUpdate(e.target.result);
+      let profile = JSON.parse(e.target.result);
+      console.log(e.target.result);
+      this.props.profileUpdate(profile);
     });
   };
+  submit = () => {
+    this.props.history.push('/dashboard')
+  }
 
   render() {
     return (
@@ -51,7 +57,7 @@ class Login extends Component {
 
                 <div className="loginPage__container__input">
                   <FileReaderInput
-                    as="binary"
+                    as="text"
                     id="my-file-input"
                     onChange={this.handleChange}
                   >
@@ -64,15 +70,15 @@ class Login extends Component {
 
               <div className="loginPage__container_containersubmit">
                 <div className="col-6 loginPage__container_submit">
-                  <button className="loginPage__container__buttonsubmit">
+                  <button onClick={() => this.submit()} className="loginPage__container__buttonsubmit">
                     Submit
                   </button>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      </div >
     );
   }
 }
@@ -89,4 +95,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

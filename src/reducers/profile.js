@@ -27,11 +27,9 @@ export function profile(state = [], action) {
             return action.profile[0];
         }
         case ActionTypes.UPDATE_PROFILE_DATA: {
+            console.log(action);
 
-            return {...state,
-                profile: action.profile
-            }
-            
+            return action.profile
         }
         case ActionTypes.FETCH_KEY_ID: {
             console.log(action);

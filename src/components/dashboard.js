@@ -1,4 +1,4 @@
-import React, { Component,PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import Header from "./header";
 import GeneralInformation from "./generalInformation";
 import Education from "./education"
@@ -12,11 +12,12 @@ class Dashboard extends Component {
       <div className="App">
         <Header />
 
-        {/* <GeneralInformation />
+        <GeneralInformation />
         <Education />
-        <Experience />
 
-        <Skill /> */}
+
+        <Skill />
+        <Experience />
       </div>
     );
   }

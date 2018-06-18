@@ -1,4 +1,4 @@
-import React, { Component,PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -23,8 +23,12 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/" component={Login} />
+        <div>
+    
+          <Route exact path="/" component={Login} />
+          <Route path="/dashboard" component={Dashboard} />
+
+        </div>
       </Router>
     );
   }

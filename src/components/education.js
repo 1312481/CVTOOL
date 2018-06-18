@@ -31,7 +31,7 @@ class Education extends Component {
     newstate[field] = temp;
     this.setState(newstate);
   }
-  
+
 
   updateFieldData(e, field, fieldName, index) {
     if (e.key === "Enter") {
@@ -44,8 +44,8 @@ class Education extends Component {
       newstate[field] = temp;
       this.setState(newstate);
       this.props.profileUpdate(value);
-      POSTAPI('http://localhost:3001/api/updateeducation',value.education,key);
-    
+      POSTAPI('http://localhost:3001/api/updateeducation', value.education, key);
+
     }
   }
 
@@ -55,7 +55,7 @@ class Education extends Component {
       let key = this.props.profile._id;
       value.education.splice(index, 1);
       this.props.profileUpdate(value);
-      POSTAPI('http://localhost:3001/api/updateeducation',value.education,key);
+      POSTAPI('http://localhost:3001/api/updateeducation', value.education, key);
     }
   }
 
@@ -69,26 +69,26 @@ class Education extends Component {
     value.education.push(tempEducation);
 
     this.props.profileUpdate(value);
-    POSTAPI('http://localhost:3001/api/updateeducation',value.education,key);
+    POSTAPI('http://localhost:3001/api/updateeducation', value.education, key);
     toast.success('Adding Education Success!!!!', {
       autoClose: 2000
     });
 
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.profile !== this.props.profile) {
-      const length = nextProps.profile.education.length;
-      let projectResTemp = [];
-      for (let i = 0; i <= length; i++) {
-        let temp = false;
+  componentWillMount() {
 
-        projectResTemp.push(temp);
-      }
-      this.setState({ nameEducationEdited: projectResTemp });
-      this.setState({ majorEducationEdited: projectResTemp });
-      this.setState({ graduatedEducationEdited: projectResTemp });
+    const length = this.props.profile.education.length;
+    let projectResTemp = [];
+    for (let i = 0; i <= length; i++) {
+      let temp = false;
+
+      projectResTemp.push(temp);
     }
+    this.setState({ nameEducationEdited: projectResTemp });
+    this.setState({ majorEducationEdited: projectResTemp });
+    this.setState({ graduatedEducationEdited: projectResTemp });
+
   }
 
 
@@ -167,13 +167,14 @@ class Education extends Component {
   }
 
   render() {
-    if (this.props.isProfileError) {
-      return <Error />
-    } else if (!this.props.isProfileLoaded) {
-      return <Loading />
-    } else {
-      return this.renderEducationContainer();
-    }
+    // if (this.props.isProfileError) {
+    //   return <Error />
+    // } else if (!this.props.isProfileLoaded) {
+    //   return <Loading />
+    // } 
+
+    return this.renderEducationContainer();
+
   }
 }
 

@@ -43,10 +43,10 @@ class GeneralInformation extends Component {
       let tempState = { ...this.state };
       tempState[field] = !tempState[field];
       this.setState(tempState);
-      POSTAPI('http://localhost:3001/api/updategeneralinfomation',value.personalInfo,key);
+      POSTAPI('http://localhost:3001/api/updategeneralinfomation', value.personalInfo, key);
       this.props.profileUpdate(value);
- 
-     
+
+
     }
   }
 
@@ -66,10 +66,10 @@ class GeneralInformation extends Component {
     };
   }
 
-  renderProperInputHeader(field, fieldName){
-    return(
+  renderProperInputHeader(field, fieldName) {
+    return (
       <div>
-         {
+        {
           this.state[field] ?
             (
               (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName]} />)
@@ -87,31 +87,32 @@ class GeneralInformation extends Component {
     )
   }
   renderProperInputPersonalInformation(field, fieldName) {
+    
     return (
       <div className="information__container__content">
         {
           this.state[field] ?
             (
               this.checkTextarea(fieldName) ?
-                (<textarea className="inputChange form-control" type="text" 
-                onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} 
-                placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
+                (<textarea className="inputChange form-control" type="text"
+                  onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
+                  placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
                 :
-                (<input className="inputChange form-control" type="text" 
-                onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} 
-                placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
+                (<input className="inputChange form-control" type="text"
+                  onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
+                  placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
             )
             :
             (
-            this.checkSkillSummary(fieldName) ?
-            (<div className="information__container__content">
-                {this.props.profile.personalInfo[fieldName]}
-                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
-            </div>) :
-              (<div className="information__container__content" >
-                {this.props.profile.personalInfo[fieldName]}
-                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
-              </div>)
+              this.checkSkillSummary(fieldName) ?
+                (<div className="information__container__content">
+                  {this.props.profile.personalInfo[fieldName]}
+                  <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+                </div>) :
+                (<div className="information__container__content" >
+                  {this.props.profile.personalInfo[fieldName]}
+                  <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+                </div>)
             )
 
         }
@@ -181,24 +182,25 @@ class GeneralInformation extends Component {
 
   }
   componentDidMount() {
-    this.props.fetchData('http://localhost:3001/api');
+    // this.props.fetchData('http://localhost:3001/api');
 
   }
 
   render() {
+    console.log(this.props.profile)
 
-    if (this.props.isProfileError) {
+    // if (this.props.isProfileError) {
 
-      return <Error />
-    }
-    else if (!this.props.isProfileLoaded) {
+    //   return <Error />
+    // }
+    // else if (!this.props.isProfileLoaded) {
 
-      return <Loading />
-    }
+    //   return <Loading />
+    // }
 
-    else {
-      return this.renderGeneralInformationContainer();
-    }
+
+    return this.renderGeneralInformationContainer();
+
   }
 }
 
