@@ -19,20 +19,29 @@ export function isProfileLoaded(state = false, action) {
             return state;
     }
 }
+export function user(state = "", action) {
+    switch (action.type) {
+        case ActionTypes.FETCH_USER:
+            {
+                return action.user;
+            }
+        default:
+            return state;
+    }
+}
 
 export function profile(state = [], action) {
     switch (action.type) {
         case ActionTypes.FETCH_PROFILE_DATA_SUCCESS: {
-            console.log(action.profile[0])
-            return action.profile[0];
+            console.log(action);
+            return action.profile[0].data[0];
         }
         case ActionTypes.UPDATE_PROFILE_DATA: {
-            console.log(action);
+    
 
             return action.profile
         }
         case ActionTypes.FETCH_KEY_ID: {
-            console.log(action);
             return action.key;
         }
         default:

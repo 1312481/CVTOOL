@@ -13,11 +13,11 @@ class Dashboard extends Component {
         <Header />
 
         <GeneralInformation />
-        <Education />
+        {/* <Education />
 
 
         <Skill />
-        <Experience />
+        <Experience /> */}
       </div>
     );
   }

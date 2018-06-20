@@ -87,7 +87,7 @@ class GeneralInformation extends Component {
     )
   }
   renderProperInputPersonalInformation(field, fieldName) {
-    
+
     return (
       <div className="information__container__content">
         {
@@ -182,25 +182,30 @@ class GeneralInformation extends Component {
 
   }
   componentDidMount() {
-    // this.props.fetchData('http://localhost:3001/api');
+    let link = 'http://localhost:3001/api/';
+    var user = sessionStorage.getItem("user");
+    let url = link + `${user}`;
+    console.log(url);
+    this.props.fetchData(url);
 
   }
 
+
   render() {
-    console.log(this.props.profile)
-
-    // if (this.props.isProfileError) {
-
-    //   return <Error />
-    // }
-    // else if (!this.props.isProfileLoaded) {
-
-    //   return <Loading />
-    // }
 
 
-    return this.renderGeneralInformationContainer();
+    if (this.props.isProfileError) {
 
+      return <Error />
+    }
+    else if (!this.props.isProfileLoaded) {
+
+      return <Loading />
+    }
+    else {
+
+      return this.renderGeneralInformationContainer();
+    }
   }
 }
 
@@ -209,6 +214,7 @@ class GeneralInformation extends Component {
 const mapStateToProps = (state) => {
   return {
     profile: state.profile,
+    user: state.user,
     isProfileError: state.isProfileError,
     isProfileLoaded: state.isProfileLoaded,
   };
@@ -217,6 +223,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (url) => dispatch(actions.fetchProfileData(url)),
+    userUpdate: (user) => dispatch(actions.fetchUser(user)),
     profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
   };
 };

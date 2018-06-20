@@ -1,17 +1,23 @@
 import React, { Component, PropTypes } from "react";
 import { withRouter } from 'react-router-dom'
 import "../assets/styles/login.css";
-import { Redirect  } from 'react-router';
+import { Redirect } from 'react-router';
 import logo from "../assets/images/nashtech.jpg";
 import FileReaderInput from "react-file-reader-input";
 import { connect } from 'react-redux';
 import * as actions from '../actions/profile';
+import POSTAPI from './postAPI';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filename: ""
+      filename: "",
+      user: "",
+      profile:{}
     };
   }
 
@@ -20,17 +26,36 @@ class Login extends Component {
       const [e, file] = result;
       this.setState({ filename: file.name });
       let profile = JSON.parse(e.target.result);
-      console.log(e.target.result);
-      this.props.profileUpdate(profile);
+      // console.log(e.target.result);
+      this.setState({profile : profile});
+
     });
   };
+  handleUserChange = (e) => {
+    this.setState({ user: e.target.value });
+  }
   submit = () => {
-    this.props.history.push('/dashboard')
+    if (this.state.user === "" || this.state.filename === "") {
+      toast.error('Ban phai nhap ten dang nhap va import file JSON  ', {
+        autoClose: 2000
+      });
+    }
+    else {
+      console.log('data la: ', this.state.profile);
+      sessionStorage.setItem('user',this.state.user);
+      POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user);
+      this.props.history.push('/dashboard')
+    }
+
   }
 
   render() {
     return (
       <div className="loginPage">
+        <ToastContainer
+          transition={Slide}
+          newestOnTop
+        />
         <div className="row loginPage__container">
           <div className="col-4 shadow loginPage__container__content">
             <div className="container  loginPage__container__maincontent ">
@@ -43,6 +68,8 @@ class Login extends Component {
                     type="text"
                     name="NashTechID"
                     placeholder="NashTechID"
+                    value={this.state.user}
+                    onChange={(e) => this.handleUserChange(e)}
                   />
                   <span className="focus-input100" />
                 </div>
@@ -73,11 +100,11 @@ class Login extends Component {
                   <button onClick={() => this.submit()} className="loginPage__container__buttonsubmit">
                     Submit
                   </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div >
     );
   }
@@ -90,7 +117,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
 
-    profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
+    profileUpdate: (profile) => dispatch(actions.updateProfileData(profile)),
+    userUpdate: (user) => dispatch(actions.fetchUser(user)),
   };
 };
 
