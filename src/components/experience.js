@@ -37,27 +37,29 @@ class Experience extends Component {
 
 
     }
+    
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps is called');
+        if (nextProps.profile !== this.props.profile) {
+            let projectResTemp = [];
+            let projectTemp = [];
+            for (let i = 0; i < nextProps.profile.experience.length; i++) {
+                let tempRes = [];
 
-    componentWillMount() {
-        let projectResTemp = [];
-        let projectTemp = [];
-        for (let i = 0; i < this.props.profile.experience.length; i++) {
-            let tempRes = [];
+                for (let j = 0; j < nextProps.profile.experience[i].responsibility.length; j++) {
 
-            for (let j = 0; j < this.props.profile.experience[i].responsibility.length; j++) {
-
-                tempRes.push(false);
+                    tempRes.push(false);
+                }
+                projectTemp.push(false);
+                projectResTemp.push(tempRes);
             }
-            projectTemp.push(false);
-            projectResTemp.push(tempRes);
+            this.setState({ projectResEdited: projectResTemp })
+            this.setState({ projectNameEdited: projectTemp })
+            this.setState({ projectDurationEdited: projectTemp })
+            this.setState({ projectPositionEdited: projectTemp })
+            this.setState({ projectDescriptionEdited: projectTemp })
+            this.setState({ projectTechnologyEdited: projectTemp })
         }
-        this.setState({ projectResEdited: projectResTemp })
-        this.setState({ projectNameEdited: projectTemp })
-        this.setState({ projectDurationEdited: projectTemp })
-        this.setState({ projectPositionEdited: projectTemp })
-        this.setState({ projectDescriptionEdited: projectTemp })
-        this.setState({ projectTechnologyEdited: projectTemp })
-
 
     }
     experienceEditing(index, field, resIndex) {
@@ -230,6 +232,7 @@ class Experience extends Component {
                                         </td>
                                         <td scope="col">
                                             <ul>
+                                                {console.log(this.state.projectResEdited )}
                                                 {this.props.profile.experience[index].responsibility.map((res, resIndex) => {
 
                                                     return (
@@ -280,15 +283,16 @@ class Experience extends Component {
 
 
     render() {
-        // if (this.props.isProfileError) {
-        //     return <Error />
-        // }
-        // else if (!this.props.isProfileLoaded) {
-        //     return <Loading />
-        // }
+        if (this.props.isProfileError) {
+            return <Error />
+        }
+        else if (!this.props.isProfileLoaded) {
+            return <Loading />
+        }
 
-        return this.renderExperienceContainer();
-
+        else {
+            return this.renderExperienceContainer();
+        }
 
     }
 }

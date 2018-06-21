@@ -5,19 +5,23 @@ import decorator from '../assets/images/decorator.png'
 
 const Header = props => {
     return (
-        <div className="header">
-            <div className="header__logo__container">
+        <div>
+        
+            <div className="header">
 
-                <img className="header__logo__image" src={logo}  />
+                <div className="header__logo__container">
 
-            </div>
+                    <img className="header__logo__image" src={logo} />
+
+                </div>
 
 
 
-            <div className="header__decorator__container">
+                <div className="header__decorator__container">
 
-                <img className="header__decorator__image" src={decorator} />
+                    <img className="header__decorator__image" src={decorator} />
 
+                </div>
             </div>
         </div>
     );

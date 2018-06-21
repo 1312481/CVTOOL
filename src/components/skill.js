@@ -28,16 +28,19 @@ class Skill extends Component {
     this.setState(newstate);
   }
 
-  componentWillMount() {
-
-    const length = this.props.profile.technicalSkill.length;
-    let projectResTemp = [];
-    for (let i = 0; i <= length; i++) {
-      let temp = false;
-      projectResTemp.push(temp);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile !== this.props.profile) {
+      const length = nextProps.profile.technicalSkill.length;
+      let projectResTemp = [];
+      for (let i = 0; i <= length; i++) {
+        let temp = false;
+        projectResTemp.push(temp);
+      }
+      this.setState({ skillNameEdited: projectResTemp });
+      this.setState({ skillDetailEdited: projectResTemp });
     }
-    this.setState({ skillNameEdited: projectResTemp });
-    this.setState({ skillDetailEdited: projectResTemp });
+
+
 
   }
   updateFieldData(e, field, fieldName, index) {
@@ -188,18 +191,18 @@ class Skill extends Component {
 
 
   render() {
-    // if (this.props.isProfileError) {
+    if (this.props.isProfileError) {
 
-    //   return <Error />
-    // }
-    // else if (!this.props.isProfileLoaded) {
+      return <Error />
+    }
+    else if (!this.props.isProfileLoaded) {
 
-    //   return <Loading />
-    // }
+      return <Loading />
+    }
+    else return this.renderSkillContainer();
 
 
 
-    return this.renderSkillContainer();
 
 
 

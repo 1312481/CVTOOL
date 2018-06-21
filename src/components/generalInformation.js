@@ -38,12 +38,13 @@ class GeneralInformation extends Component {
 
     if (e.key === 'Enter') {
       let value = { ...this.props.profile };
-      let key = this.props.profile._id;
+      var user = sessionStorage.getItem("user");
       value.personalInfo[fieldName] = e.target.value;
       let tempState = { ...this.state };
       tempState[field] = !tempState[field];
       this.setState(tempState);
-      POSTAPI('http://localhost:3001/api/updategeneralinfomation', value.personalInfo, key);
+      console.log(this.props);
+      POSTAPI('http://localhost:3001/api/updategeneralinfomation', value.personalInfo, user);
       this.props.profileUpdate(value);
 
 
@@ -72,12 +73,12 @@ class GeneralInformation extends Component {
         {
           this.state[field] ?
             (
-              (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile.personalInfo[fieldName]} />)
+              (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]} />)
             )
             :
             (
               <div >
-                {this.props.profile.personalInfo[fieldName]}
+                {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
                 <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
               </div>
             )
@@ -96,21 +97,21 @@ class GeneralInformation extends Component {
               this.checkTextarea(fieldName) ?
                 (<textarea className="inputChange form-control" type="text"
                   onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
-                  placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
+                  placeholder={this.props.profile[this.props.version.currentVersions].personalInfo[fieldName] || this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]} />)
                 :
                 (<input className="inputChange form-control" type="text"
                   onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
-                  placeholder={this.props.profile.personalInfo[fieldName] || this.props.profile.personalInfo[fieldName]} />)
+                  placeholder={this.props.profile[this.props.version.currentVersions].personalInfo[fieldName] || this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]} />)
             )
             :
             (
               this.checkSkillSummary(fieldName) ?
                 (<div className="information__container__content">
-                  {this.props.profile.personalInfo[fieldName]}
+                  {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
                   <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
                 </div>) :
                 (<div className="information__container__content" >
-                  {this.props.profile.personalInfo[fieldName]}
+                  {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
                   <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
                 </div>)
             )
@@ -126,6 +127,7 @@ class GeneralInformation extends Component {
     return (
 
       <div >
+        
         <div className="maincontent">
           <div className="maincontent__header">CURRICULUM VITAE</div>
         </div>
@@ -181,11 +183,12 @@ class GeneralInformation extends Component {
     );
 
   }
-  componentDidMount() {
+  componentWillMount() {
+    console.log('abc');
     let link = 'http://localhost:3001/api/';
     var user = sessionStorage.getItem("user");
     let url = link + `${user}`;
-    console.log(url);
+    console.log('load API: ',url);
     this.props.fetchData(url);
 
   }
@@ -214,7 +217,7 @@ class GeneralInformation extends Component {
 const mapStateToProps = (state) => {
   return {
     profile: state.profile,
-    user: state.user,
+    version: state.version,
     isProfileError: state.isProfileError,
     isProfileLoaded: state.isProfileLoaded,
   };
@@ -223,7 +226,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (url) => dispatch(actions.fetchProfileData(url)),
-    userUpdate: (user) => dispatch(actions.fetchUser(user)),
     profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
   };
 };

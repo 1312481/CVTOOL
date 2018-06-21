@@ -1,3 +1,6 @@
+.changeCV{
+    border-radius: 50%;
+}
 .header {
     display: flex;
     justify-content: space-between;

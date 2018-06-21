@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux'
-import {profile, isProfileError, isProfileLoaded, user} from './profile'
+import {profile, isProfileError, isProfileLoaded, version} from './profile'
 
 
 export default combineReducers ({
     profile,
-    user,
+    version,
     isProfileError,
     isProfileLoaded,
 });

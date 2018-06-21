@@ -76,18 +76,19 @@ class Education extends Component {
 
   }
 
-  componentWillMount() {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile !== this.props.profile) {
+      const length = nextProps.profile.education.length;
+      let projectResTemp = [];
+      for (let i = 0; i <= length; i++) {
+        let temp = false;
 
-    const length = this.props.profile.education.length;
-    let projectResTemp = [];
-    for (let i = 0; i <= length; i++) {
-      let temp = false;
-
-      projectResTemp.push(temp);
+        projectResTemp.push(temp);
+      }
+      this.setState({ nameEducationEdited: projectResTemp });
+      this.setState({ majorEducationEdited: projectResTemp });
+      this.setState({ graduatedEducationEdited: projectResTemp });
     }
-    this.setState({ nameEducationEdited: projectResTemp });
-    this.setState({ majorEducationEdited: projectResTemp });
-    this.setState({ graduatedEducationEdited: projectResTemp });
 
   }
 
@@ -167,13 +168,13 @@ class Education extends Component {
   }
 
   render() {
-    // if (this.props.isProfileError) {
-    //   return <Error />
-    // } else if (!this.props.isProfileLoaded) {
-    //   return <Loading />
-    // } 
+    if (this.props.isProfileError) {
+      return <Error />
+    } else if (!this.props.isProfileLoaded) {
+      return <Loading />
+    } 
 
-    return this.renderEducationContainer();
+    else return this.renderEducationContainer();
 
   }
 }

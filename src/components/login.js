@@ -43,6 +43,7 @@ class Login extends Component {
     else {
       console.log('data la: ', this.state.profile);
       sessionStorage.setItem('user',this.state.user);
+      this.props.userLoading();
       POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user);
       this.props.history.push('/dashboard')
     }
@@ -118,7 +119,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
 
     profileUpdate: (profile) => dispatch(actions.updateProfileData(profile)),
-    userUpdate: (user) => dispatch(actions.fetchUser(user)),
+    userLoading: (user) => dispatch(actions.isProfileLoaded(false))
   };
 };
 
