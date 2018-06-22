@@ -56,10 +56,11 @@ export function fetchKeyID(key) {
     };
 }
 
-export function updateProfileData(profile) {
+export function updateProfileData(profile,version) {
     return {
         type: UPDATE_PROFILE_DATA,
-        profile
+        profile,
+        version
     };
 }
 

@@ -25,29 +25,39 @@ class GeneralInformation extends Component {
       portfolioEdited: false,
       personalStatementEdited: false,
       englishLevelEdited: false,
-      skillEdited: false
+      skillEdited: false,
+      name: "",
+      currentPosition: "",
+      phoneNumber: "",
+      address: "",
+      email: "",
+      facebook: "",
+      linkedin: "",
+      github: "",
+      portfolio: "",
+      personalStatement: "",
+      englishLevel: "",
+      skill: ""
     }
   }
   nameEditing(field) {
     let temp = { ...this.state };
     temp[field] = !temp[field];
+    this.setState({ field: this.props.profile[this.props.version.currentVersions].personalInfo[field] })
     this.setState(temp);
   }
 
   handleKeyNamePress(e, field, fieldName) {
 
     if (e.key === 'Enter') {
-      let value = { ...this.props.profile };
+      let value = { ...this.props.profile[this.props.version.currentVersions] };
       var user = sessionStorage.getItem("user");
       value.personalInfo[fieldName] = e.target.value;
       let tempState = { ...this.state };
       tempState[field] = !tempState[field];
       this.setState(tempState);
-      console.log(this.props);
-      POSTAPI('http://localhost:3001/api/updategeneralinfomation', value.personalInfo, user);
-      this.props.profileUpdate(value);
-
-
+      POSTAPI('http://localhost:3001/api/updategeneralinfomation', value.personalInfo, user, this.props.version.currentVersions);
+      this.props.profileUpdate(value, this.props.version.currentVersions);
     }
   }
 
@@ -66,14 +76,26 @@ class GeneralInformation extends Component {
       return false
     };
   }
+  handleChange(e, fieldName) {
+    console.log(fieldName);
+    this.setState({
+      [fieldName]: e.target.value
+    })
+  }
 
   renderProperInputHeader(field, fieldName) {
     return (
       <div>
         {
+
           this.state[field] ?
             (
-              (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)} placeholder={this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]} />)
+
+              (<input className="inputChange form-control" type="text"
+                value={this.state[fieldName]}
+                onChange={(e) => this.handleChange(e, fieldName)}
+                onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
+              />)
             )
             :
             (
@@ -97,23 +119,22 @@ class GeneralInformation extends Component {
               this.checkTextarea(fieldName) ?
                 (<textarea className="inputChange form-control" type="text"
                   onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
-                  placeholder={this.props.profile[this.props.version.currentVersions].personalInfo[fieldName] || this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]} />)
+                  value={this.state[fieldName]}
+                  onChange={(e) => this.handleChange(e, fieldName)}
+                />)
                 :
                 (<input className="inputChange form-control" type="text"
                   onKeyDown={(e) => this.handleKeyNamePress(e, field, fieldName)}
-                  placeholder={this.props.profile[this.props.version.currentVersions].personalInfo[fieldName] || this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]} />)
+                  value={this.state[fieldName]}
+                  onChange={(e) => this.handleChange(e, fieldName)}
+                />)
             )
             :
             (
-              this.checkSkillSummary(fieldName) ?
-                (<div className="information__container__content">
-                  {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
-                  <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
-                </div>) :
-                (<div className="information__container__content" >
-                  {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
-                  <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
-                </div>)
+              (<div className="information__container__content" >
+                {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
+                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+              </div>)
             )
 
         }
@@ -127,7 +148,7 @@ class GeneralInformation extends Component {
     return (
 
       <div >
-        
+
         <div className="maincontent">
           <div className="maincontent__header">CURRICULUM VITAE</div>
         </div>
@@ -183,15 +204,33 @@ class GeneralInformation extends Component {
     );
 
   }
-  componentWillMount() {
-    console.log('abc');
+  componentDidMount() {
+
     let link = 'http://localhost:3001/api/';
     var user = sessionStorage.getItem("user");
     let url = link + `${user}`;
-    console.log('load API: ',url);
     this.props.fetchData(url);
 
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile !== this.props.profile) {
+      this.setState({ 
+        name: nextProps.profile[this.props.version.currentVersions].personalInfo.name,
+        currentPosition: nextProps.profile[this.props.version.currentVersions].personalInfo.currentPosition,
+        phoneNumber: nextProps.profile[this.props.version.currentVersions].personalInfo.phoneNumber,
+        address: nextProps.profile[this.props.version.currentVersions].personalInfo.address,
+        email: nextProps.profile[this.props.version.currentVersions].personalInfo.email,
+        facebook: nextProps.profile[this.props.version.currentVersions].personalInfo.facebook,
+        linkedin: nextProps.profile[this.props.version.currentVersions].personalInfo.linkedin,
+        github: nextProps.profile[this.props.version.currentVersions].personalInfo.github,
+        portfolio: nextProps.profile[this.props.version.currentVersions].personalInfo.portfolio,
+        personalStatement: nextProps.profile[this.props.version.currentVersions].personalInfo.personalStatement,
+        englishLevel: nextProps.profile[this.props.version.currentVersions].personalInfo.englishLevel,
+        skill: nextProps.profile[this.props.version.currentVersions].personalInfo.skill
+       })
+    }
+  }
+
 
 
   render() {
@@ -226,7 +265,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (url) => dispatch(actions.fetchProfileData(url)),
-    profileUpdate: (profile) => dispatch(actions.updateProfileData(profile))
+    profileUpdate: (profile, version) => dispatch(actions.updateProfileData(profile, version))
   };
 };
 

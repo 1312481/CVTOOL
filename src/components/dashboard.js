@@ -11,11 +11,12 @@ class Dashboard extends Component {
     return (
       <div className="App">
         <ChangeData />
+        <Education />
         <Header />
         <GeneralInformation />
-        {/* <Skill />
-        <Education />
-        <Experience /> */}
+        <Skill />
+
+        {/* <Experience /> */}
 
 
       </div>

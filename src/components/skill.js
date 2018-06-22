@@ -11,13 +11,15 @@ import plus from "../assets/images/plus.svg";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import POSTAPI from './postAPI'
 
 class Skill extends Component {
   constructor(props) {
     super(props);
     this.state = {
       skillNameEdited: [],
-      skillDetailEdited: []
+      skillDetailEdited: [],
+      skill: [],
     }
   }
   nameSkillEditing(index, field) {
@@ -30,14 +32,18 @@ class Skill extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.profile !== this.props.profile) {
-      const length = nextProps.profile.technicalSkill.length;
+      const length = nextProps.profile[this.props.version.currentVersions].technicalSkill.length;
       let projectResTemp = [];
       for (let i = 0; i <= length; i++) {
         let temp = false;
         projectResTemp.push(temp);
       }
-      this.setState({ skillNameEdited: projectResTemp });
-      this.setState({ skillDetailEdited: projectResTemp });
+      this.setState({ 
+        skillNameEdited: projectResTemp,
+        skillDetailEdited: projectResTemp,
+        skill: nextProps.profile[this.props.version.currentVersions].technicalSkill
+      });
+  
     }
 
 
@@ -46,25 +52,16 @@ class Skill extends Component {
   updateFieldData(e, field, fieldName, index) {
     if (e.key === "Enter") {
       let value = { ...this.props.profile };
-      let key = this.props.profile._id;
-      value.technicalSkill[index][fieldName] = e.target.value;
+      let user = sessionStorage.getItem("user");
+      value[this.props.version.currentVersions].technicalSkill[index][fieldName] = e.target.value;
       let temp = [...this.state[field]];
       temp[index] = !temp[index];
       let newstate = {};
       newstate[field] = temp;
       this.setState(newstate);
       this.props.profileUpdate(value);
-      fetch('http://localhost:3001/api/updatetechnicalskill', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          profile: value.technicalSkill,
-          key: key
-        })
-      })
+      POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
+      
     }
 
 
@@ -72,45 +69,36 @@ class Skill extends Component {
   skillDeleting(index) {
     if (window.confirm("Do you really want to delete this ?!?!")) {
       let value = { ...this.props.profile };
-      let key = this.props.profile._id;
-      value.technicalSkill.splice(index, 1);
+      let user = sessionStorage.getItem("user");
+
+      value[this.props.version.currentVersions].technicalSkill.splice(index, 1);
       this.props.profileUpdate(value);
-      this.forceUpdate();
-      fetch('http://localhost:3001/api/updatetechnicalskill', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          profile: value.technicalSkill,
-          key: key
-        })
-      })
+      POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
+    
     }
   }
   skillAdding() {
     let tempSkill = {};
-    tempSkill.name = 'Default';
-    tempSkill.detail = 'Default';
+    tempSkill.name = '';
+    tempSkill.detail = '';
 
     let value = { ...this.props.profile };
-    let key = this.props.profile._id;
-    value.technicalSkill.push(tempSkill);
+    let user = sessionStorage.getItem("user");
+    value[this.props.version.currentVersions].technicalSkill.push(tempSkill);
     this.props.profileUpdate(value);
     toast.success('Adding Technical Skills Success!!!!', {
       autoClose: 2000
     });
-    fetch('http://localhost:3001/api/updatetechnicalskill', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        profile: value.technicalSkill,
-        key: key
-      })
+    POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
+    
+
+  }
+  handleChange(e, field, fieldName, index){
+    let temp = [...this.state.skill];
+    console.log(temp);
+    temp[index][fieldName] = e.target.value;
+    this.setState({
+      skill: temp
     })
   }
 
@@ -121,12 +109,13 @@ class Skill extends Component {
           <input
             className="inputChange form-control"
             type="text"
+            value = {this.state.skill[index][fieldName]}
+            onChange={e => this.handleChange(e, field, fieldName, index)}
             onKeyDown={e => this.updateFieldData(e, field, fieldName, index)}
-            placeholder="Moi ban nhap ten"
           />
         ) : (
             <span className="">
-              {this.props.profile.technicalSkill[index][fieldName]}
+              {this.props.profile[this.props.version.currentVersions].technicalSkill[index][fieldName]}
 
               <img
                 onClick={() => this.nameSkillEditing(index, field)}
@@ -172,10 +161,10 @@ class Skill extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.profile.technicalSkill.map((tech, index) => {
+              {this.props.profile[this.props.version.currentVersions].technicalSkill.map((tech, index) => {
                 return (
 
-                  <tr key={tech.name.toString() + index.toString()}>
+                  <tr key={'skill'+ index}>
                     {this.renderProperInput("skillNameEdited", "name", index)}
                     {this.renderProperInput("skillDetailEdited", "detail", index)}
 
@@ -218,6 +207,7 @@ class Skill extends Component {
 const mapStateToProps = (state) => {
   return {
     profile: state.profile,
+    version: state.version,
     isProfileError: state.isProfileError,
     isProfileLoaded: state.isProfileLoaded,
   };

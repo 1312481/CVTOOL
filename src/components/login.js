@@ -26,7 +26,6 @@ class Login extends Component {
       const [e, file] = result;
       this.setState({ filename: file.name });
       let profile = JSON.parse(e.target.result);
-      // console.log(e.target.result);
       this.setState({profile : profile});
 
     });
@@ -41,7 +40,6 @@ class Login extends Component {
       });
     }
     else {
-      console.log('data la: ', this.state.profile);
       sessionStorage.setItem('user',this.state.user);
       this.props.userLoading();
       POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user);

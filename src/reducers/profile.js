@@ -70,9 +70,10 @@ export function profile(state = [], action) {
             return action.profile[0].data;
         }
         case ActionTypes.UPDATE_PROFILE_DATA: {
-
-
-            return action.profile
+            let newState = [...state];
+            newState[action.key] = action.profile;
+            return newState;
+   
         }
         case ActionTypes.FETCH_KEY_ID: {
             return action.key;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const POSTAPI = (link, profile, key) => {
+const POSTAPI = (link, profile, key, version) => {
     return (fetch(link, {
         method: 'POST',
         headers: {
@@ -9,7 +9,8 @@ const POSTAPI = (link, profile, key) => {
         },
         body: JSON.stringify({
             profile: profile,
-            key: key
+            key: key,
+            version: version
         })
     }))
 }
