@@ -72,6 +72,7 @@ class Experience extends Component {
             this.setState({ projectResEdited: temp });
         }
         else {
+            console.log(field);
             let temp = [...this.state[field]];
             temp[index] = !temp[index];
             let newstate = {};
@@ -124,7 +125,7 @@ class Experience extends Component {
     }
 
     experienceAdding(resIndex) {
-        let defaultName = 'Default';
+        let defaultName = '';
         if (typeof (resIndex) === 'number') {
 
             let value = { ...this.props.profile };
@@ -148,7 +149,7 @@ class Experience extends Component {
             tempExp.responsibility = [defaultName, defaultName];
             let value = { ...this.props.profile };
             let key = this.props.profile._id;
-            value.experience.push(tempExp);
+            value[this.props.version.currentVersions].experience.push(tempExp);
             POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
             this.props.profileUpdate(value);
 
@@ -159,18 +160,17 @@ class Experience extends Component {
 
     }
 
-    renderProperInput(exp, field, fieldName, index) {
+    renderProperExperienceInput(exp, field, fieldName, index) {
         return (
-            <tr>
-                <td scope="col">{fieldName}</td>
-                {this.state.projectDurationEdited[index] ?
-                    (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, field, fieldName, index)} placeholder="Moi ban nhap ten" />) :
-                    (<td scope="col">{exp[fieldName]}
-                        <img onClick={() => this.experienceEditing(index, field)} className="iconEdit" src={pencil} />
-                    </td>
-                    )
-                }
-            </tr>
+            this.state.projectDurationEdited[index] ?
+                (<input className="inputChange form-control" 
+                type="text" 
+                onKeyDown={(e) => this.updateFieldData(e, field, fieldName, index)} 
+                value = {this.state.experience[index][fieldName]} />) :
+                (<td scope="col">{exp[fieldName]}
+                    <img onClick={() => this.experienceEditing(index, field)} className="iconEdit" src={pencil} />
+                </td>
+                )
         )
     }
 
@@ -213,9 +213,20 @@ class Experience extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.renderProperInput(exp, 'projectDurationEdited', 'time', index)}
-                                    {this.renderProperInput(exp, 'projectPositionEdited', 'position', index)}
-                                    {this.renderProperInput(exp, 'projectDescriptionEdited', 'projectDescription', index)}
+                                    <tr>
+                                        <td scope="col">Time</td>
+                                        {this.renderProperExperienceInput(exp, 'projectDurationEdited', 'time', index)}
+                                    </tr>
+                                    <tr>
+                                        <td scope="col">Position</td>
+                                        {this.renderProperExperienceInput(exp, 'projectPositionEdited', 'position', index)}
+                                    </tr>
+                                    <tr>
+                                        <td scope="col">Description</td>
+
+                                        {this.renderProperExperienceInput(exp, 'projectDescriptionEdited', 'projectDescription', index)}
+                                    </tr>
+
 
                                     <tr>
                                         <td scope="col">My Responsibility
@@ -248,8 +259,12 @@ class Experience extends Component {
                                             </ul>
                                         </td>
                                     </tr>
-                                    {this.renderProperInput(exp, 'projectTechnologyEdited', 'technicalSkills', index)}
-                              
+                                    <tr>
+                                        <td scope="col">Technology</td>
+                                        {this.renderProperExperienceInput(exp, 'projectTechnologyEdited', 'technicalSkills', index)}
+
+                                    </tr>
+
 
                                 </tbody>
                             </table>
