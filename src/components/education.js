@@ -99,7 +99,6 @@ class Education extends Component {
   }
   handleChange(e,field, fieldName, index){
     let temp = [...this.state.education];
-    console.log(temp);
     temp[index][fieldName] = e.target.value;
     this.setState({
       education: temp

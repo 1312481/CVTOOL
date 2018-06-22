@@ -95,7 +95,6 @@ class Skill extends Component {
   }
   handleChange(e, field, fieldName, index){
     let temp = [...this.state.skill];
-    console.log(temp);
     temp[index][fieldName] = e.target.value;
     this.setState({
       skill: temp

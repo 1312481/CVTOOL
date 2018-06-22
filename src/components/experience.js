@@ -30,35 +30,38 @@ class Experience extends Component {
             projectTechnologyEdited: [],
             projectResEdited: [
 
-            ]
+            ],
+            experience: []
         }
 
 
 
 
     }
-    
+
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps is called');
         if (nextProps.profile !== this.props.profile) {
             let projectResTemp = [];
             let projectTemp = [];
-            for (let i = 0; i < nextProps.profile.experience.length; i++) {
+            for (let i = 0; i < nextProps.profile[this.props.version.currentVersions].experience.length; i++) {
                 let tempRes = [];
 
-                for (let j = 0; j < nextProps.profile.experience[i].responsibility.length; j++) {
+                for (let j = 0; j < nextProps.profile[this.props.version.currentVersions].experience[i].responsibility.length; j++) {
 
                     tempRes.push(false);
                 }
                 projectTemp.push(false);
                 projectResTemp.push(tempRes);
             }
-            this.setState({ projectResEdited: projectResTemp })
-            this.setState({ projectNameEdited: projectTemp })
-            this.setState({ projectDurationEdited: projectTemp })
-            this.setState({ projectPositionEdited: projectTemp })
-            this.setState({ projectDescriptionEdited: projectTemp })
-            this.setState({ projectTechnologyEdited: projectTemp })
+            this.setState({
+                projectResEdited: projectResTemp,
+                projectNameEdited: projectTemp,
+                projectDurationEdited: projectTemp,
+                projectPositionEdited: projectTemp,
+                projectDescriptionEdited: projectTemp,
+                projectTechnologyEdited: projectTemp,
+                experience: nextProps.profile[this.props.version.currentVersions].experience
+            })
         }
 
     }
@@ -84,13 +87,13 @@ class Experience extends Component {
         let key = this.props.profile._id;
         if (e.key === 'Enter') {
             if (typeof (resIndex) === 'number') {
-                value.experience[index].responsibility[resIndex] = e.target.value;
+                value[this.props.version.currentVersions].experience[index].responsibility[resIndex] = e.target.value;
                 let temp = { ...this.state.projectResEdited };
                 temp[index][resIndex] = !temp[index][resIndex];
                 this.setState({ projectResEdited: temp });
             }
             else {
-                value.experience[index][fieldName] = e.target.value;
+                value[this.props.version.currentVersions].experience[index][fieldName] = e.target.value;
                 let temp = { ...this.state[field] };
                 temp[index] = !temp[index];
                 this.setState({ field: temp });
@@ -108,12 +111,12 @@ class Experience extends Component {
         let key = this.props.profile._id;
         if (typeof (resIndex) === 'number') {
             if (window.confirm("Do you really want to delete this ?!?!")) {
-                value.experience[index].responsibility.splice(resIndex, 1);
+                value[this.props.version.currentVersions].experience[index].responsibility.splice(resIndex, 1);
             }
         }
         else {
             if (window.confirm("Do you really want to delete this ?!?!")) {
-                value.experience.splice(index, 1);
+                value[this.props.version.currentVersions].experience.splice(index, 1);
             }
         }
         POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
@@ -126,7 +129,7 @@ class Experience extends Component {
 
             let value = { ...this.props.profile };
             let key = this.props.profile._id;
-            value.experience[resIndex].responsibility.push(defaultName);
+            value[this.props.version.currentVersions].experience[resIndex].responsibility.push(defaultName);
             POSTAPI('http://localhost:3001/api/updateexperience', value.experience, key);
             this.props.profileUpdate(value);
             toast.success('Adding Responsibility Success!!!!', {
@@ -156,6 +159,20 @@ class Experience extends Component {
 
     }
 
+    renderProperInput(exp, field, fieldName, index) {
+        return (
+            <tr>
+                <td scope="col">{fieldName}</td>
+                {this.state.projectDurationEdited[index] ?
+                    (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, field, fieldName, index)} placeholder="Moi ban nhap ten" />) :
+                    (<td scope="col">{exp[fieldName]}
+                        <img onClick={() => this.experienceEditing(index, field)} className="iconEdit" src={pencil} />
+                    </td>
+                    )
+                }
+            </tr>
+        )
+    }
 
 
 
@@ -174,15 +191,19 @@ class Experience extends Component {
 
                 </div>
 
-                {this.props.profile.experience.map((exp, index) => {
+                {this.props.profile[this.props.version.currentVersions].experience.map((exp, index) => {
                     return (
-                        <div className="maintable" key={exp.toString() + index.toString()}>
+                        <div className="maintable" key={"experience" + index}>
                             <table>
                                 <thead>
                                     <tr className="table-custom">
                                         <th scope="col">Project</th>
                                         {this.state.projectNameEdited[index] ?
-                                            (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectNameEdited', 'projectName', index)} placeholder="Moi ban nhap ten" />) :
+                                            (<input className="inputChange form-control"
+                                                type="text"
+                                                onKeyDown={(e) => this.updateFieldData(e, 'projectNameEdited', 'projectName', index)}
+                                                placeholder="Moi ban nhap ten"
+                                            />) :
                                             (<td scope="col">{exp.projectName}
                                                 <img onClick={() => this.experienceEditing(index, 'projectNameEdited')} className="iconEdit" src={pencil} />
                                                 <img onClick={() => this.experienceDeleting(index)} className="iconEdit" src={deleteImage} />
@@ -192,83 +213,43 @@ class Experience extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td scope="col">Duration</td>
-                                        {this.state.projectDurationEdited[index] ?
-                                            (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectDurationEdited', 'time', index)} placeholder="Moi ban nhap ten" />) :
-                                            (<td scope="col">{exp.time}
-                                                <img onClick={() => this.experienceEditing(index, 'projectDurationEdited')} className="iconEdit" src={pencil} />
-                                            </td>
-                                            )
-                                        }
+                                    {this.renderProperInput(exp, 'projectDurationEdited', 'time', index)}
+                                    {this.renderProperInput(exp, 'projectPositionEdited', 'position', index)}
+                                    {this.renderProperInput(exp, 'projectDescriptionEdited', 'projectDescription', index)}
 
-                                    </tr>
-                                    <tr>
-                                        <td scope="col">Position</td>
-                                        {this.state.projectPositionEdited[index] ?
-                                            (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectPositionEdited', 'position', index)} placeholder="Moi ban nhap ten" />) :
-                                            (<td scope="col">{exp.position}
-                                                <img onClick={() => this.experienceEditing(index, 'projectPositionEdited')} className="iconEdit" src={pencil} />
-                                            </td>
-                                            )
-                                        }
-
-                                    </tr>
-
-                                    <tr>
-                                        <td scope="col">ProjectDescription</td>
-                                        {this.state.projectDescriptionEdited[index] ?
-                                            (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectDescriptionEdited', 'projectDescription', index)} placeholder="Moi ban nhap ten" />) :
-                                            (<td scope="col">{exp.projectDescription}
-                                                <img onClick={() => this.experienceEditing(index, 'projectDescriptionEdited')} className="iconEdit" src={pencil} />
-                                            </td>
-                                            )
-                                        }
-
-                                    </tr>
                                     <tr>
                                         <td scope="col">My Responsibility
                                         <img onClick={() => this.experienceAdding(index)} className="iconEdit" src={plus} />
                                         </td>
                                         <td scope="col">
                                             <ul>
-                                                {console.log(this.state.projectResEdited )}
-                                                {this.props.profile.experience[index].responsibility.map((res, resIndex) => {
+                                                {this.props.profile
+                                                [this.props.version.currentVersions].
+                                                    experience[index].responsibility.map((res, resIndex) => {
 
-                                                    return (
+                                                        return (
 
-                                                        <li key={exp.toString() + index.toString() + resIndex.toString()}>
+                                                            <li key={exp.toString() + index.toString() + resIndex.toString()}>
 
-                                                            {
-                                                                this.state.projectResEdited[index][resIndex] ?
-                                                                    (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectResEdited', 'responsibility', index, resIndex)} placeholder="Moi ban nhap ten" />) :
+                                                                {
+                                                                    this.state.projectResEdited[index][resIndex] ?
+                                                                        (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectResEdited', 'responsibility', index, resIndex)} placeholder="Moi ban nhap ten" />) :
 
-                                                                    (<div scope="col">{exp.responsibility[resIndex]}
-                                                                        <img onClick={() => this.experienceEditing(index, 'res', resIndex)} className="iconEdit" src={pencil} />
-                                                                        <img onClick={() => this.experienceDeleting(index, resIndex)} className="iconEdit" src={deleteImage} />
-                                                                    </div>
-                                                                    )
-                                                            }
-                                                        </li>
-                                                    )
-                                                })}
+                                                                        (<div scope="col">{exp.responsibility[resIndex]}
+                                                                            <img onClick={() => this.experienceEditing(index, 'res', resIndex)} className="iconEdit" src={pencil} />
+                                                                            <img onClick={() => this.experienceDeleting(index, resIndex)} className="iconEdit" src={deleteImage} />
+                                                                        </div>
+                                                                        )
+                                                                }
+                                                            </li>
+                                                        )
+                                                    })}
 
                                             </ul>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td scope="col">Technology</td>
-                                        {this.state.projectTechnologyEdited[index] ?
-                                            (<input className="inputChange form-control" type="text" onKeyDown={(e) => this.updateFieldData(e, 'projectTechnologyEdited', 'technicalSkills', index)} placeholder="Moi ban nhap ten" />) :
-
-
-                                            (<td scope="col">{exp.technicalSkills}
-                                                <img onClick={() => this.experienceEditing(index, 'projectTechnologyEdited')} className="iconEdit" src={pencil} />
-                                            </td>
-                                            )
-                                        }
-
-                                    </tr>
+                                    {this.renderProperInput(exp, 'projectTechnologyEdited', 'technicalSkills', index)}
+                              
 
                                 </tbody>
                             </table>
@@ -303,6 +284,7 @@ class Experience extends Component {
 const mapStateToProps = (state) => {
     return {
         profile: state.profile,
+        version: state.version,
         isProfileError: state.isProfileError,
         isProfileLoaded: state.isProfileLoaded,
     };
