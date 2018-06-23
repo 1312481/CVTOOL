@@ -14,6 +14,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { Slide, Zoom, Flip, Bounce } from "react-toastify";
 import POSTAPI from "./postAPI";
 
+
+
 class Experience extends Component {
   constructor(props) {
     super(props);
@@ -29,13 +31,13 @@ class Experience extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const {currentVersions} = this.props.version;
     if (nextProps.profile !== this.props.profile) {
       let projectResTemp = [];
       let projectTemp = [];
-      for (
-        let i = 0;
+      for (let i = 0;
         i <
-        nextProps.profile[this.props.version.currentVersions].experience.length;
+        nextProps.profile[currentVersions].experience.length;
         i++
       ) {
         let tempRes = [];
@@ -43,7 +45,7 @@ class Experience extends Component {
         for (
           let j = 0;
           j <
-          nextProps.profile[this.props.version.currentVersions].experience[i]
+          nextProps.profile[currentVersions].experience[i]
             .responsibility.length;
           j++
         ) {
@@ -52,6 +54,7 @@ class Experience extends Component {
         projectTemp.push(false);
         projectResTemp.push(tempRes);
       }
+      
       this.setState({
         projectResEdited: projectResTemp,
         projectNameEdited: projectTemp,
@@ -60,7 +63,7 @@ class Experience extends Component {
         projectDescriptionEdited: projectTemp,
         projectTechnologyEdited: projectTemp,
         experience:
-          nextProps.profile[this.props.version.currentVersions].experience
+          nextProps.profile[currentVersions].experience
       });
     }
   }
@@ -70,7 +73,6 @@ class Experience extends Component {
       temp[index][resIndex] = !temp[index][resIndex];
       this.setState({ projectResEdited: temp });
     } else {
-      console.log(field);
       let temp = [...this.state[field]];
       temp[index] = !temp[index];
       let newstate = {};
@@ -81,10 +83,11 @@ class Experience extends Component {
 
   updateFieldData(e, field, fieldName, index, resIndex) {
     let value = { ...this.props.profile };
-    let key = this.props.profile._id;
+    let user = sessionStorage.getItem("user");
+    const {currentVersions} = this.props.version;
     if (e.key === "Enter") {
       if (typeof resIndex === "number") {
-        value[this.props.version.currentVersions].experience[
+        value[currentVersions].experience[
           index
         ].responsibility[resIndex] =
           e.target.value;
@@ -92,7 +95,7 @@ class Experience extends Component {
         temp[index][resIndex] = !temp[index][resIndex];
         this.setState({ projectResEdited: temp });
       } else {
-        value[this.props.version.currentVersions].experience[index][fieldName] =
+        value[currentVersions].experience[index][fieldName] =
           e.target.value;
         let temp = { ...this.state[field] };
         temp[index] = !temp[index];
@@ -100,8 +103,9 @@ class Experience extends Component {
       }
       POSTAPI(
         "http://localhost:3001/api/updateexperience",
-        value.experience,
-        key
+        value[this.props.version.currentVersions].experience,
+        user,
+        this.props.version.currentVersions
       );
       this.props.profileUpdate(value);
     }
@@ -109,38 +113,43 @@ class Experience extends Component {
 
   experienceDeleting(index, resIndex) {
     let value = { ...this.props.profile };
-    let key = this.props.profile._id;
+    let user = sessionStorage.getItem("user");
+    const {currentVersions} = this.props.version;
     if (typeof resIndex === "number") {
       if (window.confirm("Do you really want to delete this ?!?!")) {
-        value[this.props.version.currentVersions].experience[
+        value[currentVersions].experience[
           index
         ].responsibility.splice(resIndex, 1);
       }
     } else {
       if (window.confirm("Do you really want to delete this ?!?!")) {
-        value[this.props.version.currentVersions].experience.splice(index, 1);
+        value[currentVersions].experience.splice(index, 1);
       }
     }
     POSTAPI(
       "http://localhost:3001/api/updateexperience",
-      value.experience,
-      key
+      value[this.props.version.currentVersions].experience,
+      user,
+      this.props.version.currentVersions
     );
     this.props.profileUpdate(value);
   }
 
   experienceAdding(resIndex) {
     let defaultName = "";
+    const {currentVersions} = this.props.version;
+    let user = sessionStorage.getItem("user");
     if (typeof resIndex === "number") {
       let value = { ...this.props.profile };
       let key = this.props.profile._id;
-      value[this.props.version.currentVersions].experience[
+      value[currentVersions].experience[
         resIndex
       ].responsibility.push(defaultName);
       POSTAPI(
         "http://localhost:3001/api/updateexperience",
-        value.experience,
-        key
+        value[this.props.version.currentVersions].experience,
+        user,
+        this.props.version.currentVersions
       );
       this.props.profileUpdate(value);
       toast.success("Adding Responsibility Success!!!!", {
@@ -158,11 +167,12 @@ class Experience extends Component {
       tempExp.responsibility = [defaultName, defaultName];
       let value = { ...this.props.profile };
       let key = this.props.profile._id;
-      value[this.props.version.currentVersions].experience.push(tempExp);
+      value[currentVersions].experience.push(tempExp);
       POSTAPI(
         "http://localhost:3001/api/updateexperience",
-        value.experience,
-        key
+        value[this.props.version.currentVersions].experience,
+        user,
+        this.props.version.currentVersions
       );
       this.props.profileUpdate(value);
 
@@ -176,8 +186,8 @@ class Experience extends Component {
       let temp = [...this.state.experience[index][fieldName]];
       temp[resIndex] = e.target.value;
       let expTemp = [...this.state.experience];
-      expTemp[index][resIndex] = temp[resIndex];
-      console.log(expTemp);
+      expTemp[index][fieldName][resIndex] = temp[resIndex];
+
       this.setState({
         experience: expTemp
       });
@@ -215,6 +225,7 @@ class Experience extends Component {
 
   renderExperienceContainer() {
     return (
+      
       <div>
         <ToastContainer transition={Slide} newestOnTop />
         <div className=" maincontent">
@@ -227,7 +238,6 @@ class Experience extends Component {
             />
           </div>
         </div>
-
         {this.props.profile[this.props.version.currentVersions].experience.map(
           (exp, index) => {
             return (
@@ -314,8 +324,8 @@ class Experience extends Component {
                                       }
                                       value={
                                         this.state.experience[index][
-                                          "responsibility"
-                                        ]
+                                          "responsibility"][resIndex]
+                                        
                                       }
                                       onChange={e => {
                                         this.handleChange(
