@@ -32,18 +32,19 @@ class Skill extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.profile !== this.props.profile) {
+      console.log(nextProps)
       const length = nextProps.profile[this.props.version.currentVersions].technicalSkill.length;
       let projectResTemp = [];
       for (let i = 0; i <= length; i++) {
         let temp = false;
         projectResTemp.push(temp);
       }
-      this.setState({ 
+      this.setState({
         skillNameEdited: projectResTemp,
         skillDetailEdited: projectResTemp,
         skill: nextProps.profile[this.props.version.currentVersions].technicalSkill
       });
-  
+
     }
 
 
@@ -61,7 +62,7 @@ class Skill extends Component {
       this.setState(newstate);
       this.props.profileUpdate(value);
       POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
-      
+
     }
 
 
@@ -74,7 +75,7 @@ class Skill extends Component {
       value[this.props.version.currentVersions].technicalSkill.splice(index, 1);
       this.props.profileUpdate(value);
       POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
-    
+
     }
   }
   skillAdding() {
@@ -90,7 +91,7 @@ class Skill extends Component {
       autoClose: 2000
     });
     POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
-    
+
 
   }
   handleChange(e, field, fieldName, index){
@@ -160,6 +161,8 @@ class Skill extends Component {
               </tr>
             </thead>
             <tbody>
+              {console.log(this.props.version.currentVersions)}
+              {console.log(this.props.profile[this.props.version.currentVersions].technicalSkill)}
               {this.props.profile[this.props.version.currentVersions].technicalSkill.map((tech, index) => {
                 return (
 

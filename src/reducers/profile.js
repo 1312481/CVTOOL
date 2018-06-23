@@ -27,13 +27,14 @@ export function version(state = initialState, action) {
         case ActionTypes.INCREMENT_DATA:
             {
                 let temp = state.currentVersions;
+                console.log(temp);
                 if(state.currentVersions === state.numberOfVersions - 1){
                     temp = 0;
                 }
                 else{
                     temp++;
                 }
-               
+
                 return Object.assign({}, state, {
                     currentVersions: temp
                 })
@@ -47,7 +48,7 @@ export function version(state = initialState, action) {
                 else{
                     temp--;
                 }
-      
+
                 return Object.assign({}, state, {
                     currentVersions: temp
                 })
@@ -73,7 +74,7 @@ export function profile(state = [], action) {
             let newState = [...state];
             newState[action.key] = action.profile;
             return newState;
-   
+
         }
         case ActionTypes.FETCH_KEY_ID: {
             return action.key;
