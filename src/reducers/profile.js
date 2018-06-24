@@ -1,7 +1,8 @@
 import * as ActionTypes from '../actions/profile'
 let initialState = {
     numberOfVersions: 0,
-    currentVersions: 0
+    currentVersions: 0,
+    tagName: ""
 }
 export function isProfileError(state = false, action) {
     switch (action.type) {
@@ -27,7 +28,6 @@ export function version(state = initialState, action) {
         case ActionTypes.INCREMENT_DATA:
             {
                 let temp = state.currentVersions;
-                console.log(temp);
                 if(state.currentVersions === state.numberOfVersions - 1){
                     temp = 0;
                 }

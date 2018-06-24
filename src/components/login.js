@@ -16,8 +16,9 @@ class Login extends Component {
     super(props);
     this.state = {
       filename: "",
+      tagname: "",
       user: "",
-      profile:{}
+      profile: {}
     };
   }
 
@@ -26,12 +27,15 @@ class Login extends Component {
       const [e, file] = result;
       this.setState({ filename: file.name });
       let profile = JSON.parse(e.target.result);
-      this.setState({profile : profile});
+      this.setState({ profile: profile });
 
     });
   };
   handleUserChange = (e) => {
     this.setState({ user: e.target.value });
+  }
+  handleTagNameChange = (e) => {
+    this.setState({tagname: e.target.value});
   }
   submit = () => {
     if (this.state.user === "" || this.state.filename === "") {
@@ -40,9 +44,9 @@ class Login extends Component {
       });
     }
     else {
-      sessionStorage.setItem('user',this.state.user);
+      sessionStorage.setItem('user', this.state.user);
       this.props.userLoading();
-      POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user);
+      POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user, this.state.tagname);
       this.props.history.push('/dashboard')
     }
 
@@ -58,7 +62,7 @@ class Login extends Component {
         <div className="row loginPage__container">
           <div className="col-4 shadow loginPage__container__content">
             <div className="container  loginPage__container__maincontent ">
-              <div className="loginPage__container__title">Login</div>
+              <div className="loginPage__container__title">CV Generator Tool</div>
               <img className="loginPage__container__logo" src={logo} />
               <div className="loginPage__container__username">
                 <div className="wrap-input100 validate-input">
@@ -73,12 +77,25 @@ class Login extends Component {
                   <span className="focus-input100" />
                 </div>
               </div>
+              <div className="loginPage__container__username">
+                <div className="wrap-input100 validate-input">
+                  <input
+                    className="input100"
+                    type="text"
+                    name="NashTechID"
+                    placeholder="Name tag for version"
+                    value={this.state.tagname}
+                    onChange={(e) => this.handleTagNameChange(e)}
+                  />
+                  <span className="focus-input100" />
+                </div>
+              </div>
               <div className="loginPage__container__importJSON">
                 <label
                   className="loginPage__container__filetitle"
                   htmlFor="file"
                 >
-                  <div>File: {this.state.filename}</div>
+                  <div class="loginPage__container__filename">File: {this.state.filename}</div>
                 </label>
 
                 <div className="loginPage__container__input">
@@ -93,6 +110,7 @@ class Login extends Component {
                   </FileReaderInput>
                 </div>
               </div>
+              
 
               <div className="loginPage__container_containersubmit">
                 <div className="col-6 loginPage__container_submit">

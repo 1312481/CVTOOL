@@ -5,7 +5,6 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import configureStore from './store/configureStore';
-import GeneralInformation from './components/generalInformation';
 import {Provider} from 'react-redux';
 
 

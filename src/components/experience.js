@@ -31,7 +31,7 @@ class Experience extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {currentVersions} = this.props.version;
+    const { currentVersions } = this.props.version;
     if (nextProps.profile !== this.props.profile) {
       let projectResTemp = [];
       let projectTemp = [];
@@ -54,7 +54,7 @@ class Experience extends Component {
         projectTemp.push(false);
         projectResTemp.push(tempRes);
       }
-      
+
       this.setState({
         projectResEdited: projectResTemp,
         projectNameEdited: projectTemp,
@@ -84,7 +84,7 @@ class Experience extends Component {
   updateFieldData(e, field, fieldName, index, resIndex) {
     let value = { ...this.props.profile };
     let user = sessionStorage.getItem("user");
-    const {currentVersions} = this.props.version;
+    const { currentVersions } = this.props.version;
     if (e.key === "Enter") {
       if (typeof resIndex === "number") {
         value[currentVersions].experience[
@@ -114,7 +114,7 @@ class Experience extends Component {
   experienceDeleting(index, resIndex) {
     let value = { ...this.props.profile };
     let user = sessionStorage.getItem("user");
-    const {currentVersions} = this.props.version;
+    const { currentVersions } = this.props.version;
     if (typeof resIndex === "number") {
       if (window.confirm("Do you really want to delete this ?!?!")) {
         value[currentVersions].experience[
@@ -137,7 +137,7 @@ class Experience extends Component {
 
   experienceAdding(resIndex) {
     let defaultName = "";
-    const {currentVersions} = this.props.version;
+    const { currentVersions } = this.props.version;
     let user = sessionStorage.getItem("user");
     if (typeof resIndex === "number") {
       let value = { ...this.props.profile };
@@ -212,20 +212,20 @@ class Experience extends Component {
         />
       </td>
     ) : (
-      <td scope="col">
-        {exp[fieldName]}
-        <img
-          onClick={() => this.experienceEditing(index, field)}
-          className="iconEdit"
-          src={pencil}
-        />
-      </td>
-    );
+        <td scope="col">
+          {exp[fieldName]}
+          <img
+            onClick={() => this.experienceEditing(index, field)}
+            className="iconEdit"
+            src={pencil}
+          />
+        </td>
+      );
   }
 
   renderExperienceContainer() {
     return (
-      
+
       <div>
         <ToastContainer transition={Slide} newestOnTop />
         <div className=" maincontent">
@@ -310,60 +310,60 @@ class Experience extends Component {
                                   {this.state.projectResEdited[index][
                                     resIndex
                                   ] ? (
-                                    <input
-                                      className="inputChange form-control"
-                                      type="text"
-                                      onKeyDown={e =>
-                                        this.updateFieldData(
-                                          e,
-                                          "projectResEdited",
-                                          "responsibility",
-                                          index,
-                                          resIndex
-                                        )
-                                      }
-                                      value={
-                                        this.state.experience[index][
+                                      <input
+                                        className="inputChange form-control"
+                                        type="text"
+                                        onKeyDown={e =>
+                                          this.updateFieldData(
+                                            e,
+                                            "projectResEdited",
+                                            "responsibility",
+                                            index,
+                                            resIndex
+                                          )
+                                        }
+                                        value={
+                                          this.state.experience[index][
                                           "responsibility"][resIndex]
-                                        
-                                      }
-                                      onChange={e => {
-                                        this.handleChange(
-                                          e,
-                                          exp,
-                                          "projectResEdited",
-                                          "responsibility",
-                                          index,
-                                          resIndex
-                                        );
-                                      }}
-                                    />
-                                  ) : (
-                                    <div scope="col">
-                                      {exp.responsibility[resIndex]}
-                                      <img
-                                        onClick={() =>
-                                          this.experienceEditing(
-                                            index,
-                                            "res",
-                                            resIndex
-                                          )
+
                                         }
-                                        className="iconEdit"
-                                        src={pencil}
-                                      />
-                                      <img
-                                        onClick={() =>
-                                          this.experienceDeleting(
+                                        onChange={e => {
+                                          this.handleChange(
+                                            e,
+                                            exp,
+                                            "projectResEdited",
+                                            "responsibility",
                                             index,
                                             resIndex
-                                          )
-                                        }
-                                        className="iconEdit"
-                                        src={deleteImage}
+                                          );
+                                        }}
                                       />
-                                    </div>
-                                  )}
+                                    ) : (
+                                      <div scope="col">
+                                        {exp.responsibility[resIndex]}
+                                        <img
+                                          onClick={() =>
+                                            this.experienceEditing(
+                                              index,
+                                              "res",
+                                              resIndex
+                                            )
+                                          }
+                                          className="iconEdit"
+                                          src={pencil}
+                                        />
+                                        <img
+                                          onClick={() =>
+                                            this.experienceDeleting(
+                                              index,
+                                              resIndex
+                                            )
+                                          }
+                                          className="iconEdit"
+                                          src={deleteImage}
+                                        />
+                                      </div>
+                                    )}
                                 </li>
                               );
                             }

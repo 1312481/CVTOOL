@@ -32,7 +32,6 @@ class Skill extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.profile !== this.props.profile) {
-      console.log(nextProps)
       const length = nextProps.profile[this.props.version.currentVersions].technicalSkill.length;
       let projectResTemp = [];
       for (let i = 0; i <= length; i++) {
@@ -161,8 +160,7 @@ class Skill extends Component {
               </tr>
             </thead>
             <tbody>
-              {console.log(this.props.version.currentVersions)}
-              {console.log(this.props.profile[this.props.version.currentVersions].technicalSkill)}
+             
               {this.props.profile[this.props.version.currentVersions].technicalSkill.map((tech, index) => {
                 return (
 

@@ -2,8 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import '../assets/styles/changedata.css'
 import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
+import Error from './error';
+import Loading from './loading';
+
 
 class ChangeData extends Component {
+    constructor(props){
+        super(props);
+    }
     increment() {
         this.props.versionIncrement();
     }
@@ -11,11 +17,25 @@ class ChangeData extends Component {
         this.props.versionDecrement();
     }
     render() {
-        return (
-            
+
+        if (this.props.isProfileError) {
+
+            return <Error />
+        }
+        else if (!this.props.isProfileLoaded) {
+
+            return <Loading />
+        }
+        else return (
+
             <div>
-                <a onClick= {() =>this.decrement()} className="previous round">&#8249;</a>
-                <a onClick= {() =>this.increment()} className="next round">&#8250;</a>
+                
+                <a onClick={() => this.decrement()} className="previous round">&#8249;</a>
+                <div>
+                Name tag for versions: 
+                {this.props.profile[this.props.version.currentVersions].tagName}
+                </div>
+                <a onClick={() => this.increment()} className="next round">&#8250;</a>
             </div>
 
 
@@ -26,7 +46,10 @@ class ChangeData extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        version: state.version
+        profile: state.profile,
+        version: state.version,
+        isProfileError: state.isProfileError,
+        isProfileLoaded: state.isProfileLoaded
     };
 };
 
