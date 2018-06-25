@@ -1,14 +1,13 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import pencil from "../assets/images/pencil.svg";
 import deleteImage from "../assets/images/delete.svg";
 import plus from "../assets/images/plus.svg";
 import { connect } from "react-redux";
 import * as actions from "../actions/profile";
 import "../assets/styles/education.css";
-import configureStore from "../store/configureStore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Slide, Zoom, Flip, Bounce } from "react-toastify";
+import { Slide } from "react-toastify";
 import POSTAPI from "./postAPI";
 
 
@@ -49,8 +48,6 @@ class Experience extends Component {
       projectTemp.push(false);
       projectResTemp.push(tempRes);
     }
-    console.log(projectResTemp)
-
     this.setState({
       projectResEdited: projectResTemp,
       projectNameEdited: projectTemp,
@@ -137,7 +134,6 @@ class Experience extends Component {
     let user = sessionStorage.getItem("user");
     if (typeof resIndex === "number") {
       let value = { ...this.props.profile };
-      let key = this.props.profile._id;
       value[currentVersions].experience[
         resIndex
       ].responsibility.push(defaultName);
@@ -153,7 +149,6 @@ class Experience extends Component {
       });
     } else {
       let tempExp = {};
-      let tempExpRes = [];
       tempExp.position = defaultName;
       tempExp.companyName = defaultName;
       tempExp.projectName = defaultName;
@@ -162,7 +157,6 @@ class Experience extends Component {
       tempExp.time = defaultName;
       tempExp.responsibility = [defaultName, defaultName];
       let value = { ...this.props.profile };
-      let key = this.props.profile._id;
       value[currentVersions].experience.push(tempExp);
       POSTAPI(
         "http://localhost:3001/api/updateexperience",
@@ -208,19 +202,19 @@ class Experience extends Component {
         />
       </td>
     ) : (
-        <td scope="col">
+        <td >
           {exp[fieldName]}
           <img
             onClick={() => this.experienceEditing(index, field)}
             className="iconEdit"
             src={pencil}
+            alt="pencil"
           />
         </td>
       );
   }
 
   renderExperienceContainer() {
-    { console.log(this.props.profile) }
     return (
 
       <div>
@@ -232,6 +226,7 @@ class Experience extends Component {
               onClick={() => this.experienceAdding()}
               className="iconEdit"
               src={plus}
+              alt="plus"
             />
           </div>
         </div>
@@ -253,7 +248,7 @@ class Experience extends Component {
                   </thead>
                   <tbody>
                     <tr>
-                      <td scope="col">Time</td>
+                      <td>Time</td>
                       {this.renderProperExperienceInput(
                         exp,
                         "projectDurationEdited",
@@ -262,7 +257,7 @@ class Experience extends Component {
                       )}
                     </tr>
                     <tr>
-                      <td scope="col">Position</td>
+                      <td>Position</td>
                       {this.renderProperExperienceInput(
                         exp,
                         "projectPositionEdited",
@@ -271,7 +266,7 @@ class Experience extends Component {
                       )}
                     </tr>
                     <tr>
-                      <td scope="col">Description</td>
+                      <td>Description</td>
 
                       {this.renderProperExperienceInput(
                         exp,
@@ -282,15 +277,16 @@ class Experience extends Component {
                     </tr>
 
                     <tr>
-                      <td scope="col">
+                      <td>
                         My Responsibility
                         <img
                           onClick={() => this.experienceAdding(index)}
                           className="iconEdit"
                           src={plus}
+                          alt="plus"
                         />
                       </td>
-                      <td scope="col">
+                      <td>
                         <ul>
                           {this.props.profile[
                             this.props.version.currentVersions
@@ -304,7 +300,6 @@ class Experience extends Component {
                                     resIndex.toString()
                                   }
                                 >
-                                  {console.log(this.state.projectResEdited)}
                                   {this.state.projectResEdited[index][
                                     resIndex
                                   ] ? (
@@ -337,7 +332,7 @@ class Experience extends Component {
                                         }}
                                       />
                                     ) : (
-                                      <div scope="col">
+                                      <div>
                                         {exp.responsibility[resIndex]}
                                         <img
                                           onClick={() =>
@@ -349,6 +344,7 @@ class Experience extends Component {
                                           }
                                           className="iconEdit"
                                           src={pencil}
+                                          alt ="pencil"
                                         />
                                         <img
                                           onClick={() =>
@@ -359,6 +355,7 @@ class Experience extends Component {
                                           }
                                           className="iconEdit"
                                           src={deleteImage}
+                                          alt="delete"
                                         />
                                       </div>
                                     )}
@@ -370,7 +367,7 @@ class Experience extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <td scope="col">Technology</td>
+                      <td>Technology</td>
                       {this.renderProperExperienceInput(
                         exp,
                         "projectTechnologyEdited",

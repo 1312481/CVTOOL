@@ -51,7 +51,13 @@ a:hover {
 .customButton{
     margin-left: 5%;
 }
-
+.changeData__title{
+    display: inline;
+}
+.changeData__username{
+    display: inline;
+    margin-left: 8%;
+}
 @media print{
     .changeData{
         display: none;

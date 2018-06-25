@@ -1,7 +1,5 @@
-import React, { Component, PropTypes } from "react";
-import { withRouter } from 'react-router-dom'
+import React, { Component } from "react";
 import "../assets/styles/login.css";
-import { Redirect } from 'react-router';
 import logo from "../assets/images/nashtech.jpg";
 import FileReaderInput from "react-file-reader-input";
 import { connect } from 'react-redux';
@@ -9,7 +7,7 @@ import * as actions from '../actions/profile';
 import POSTAPI from './postAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import { Slide } from 'react-toastify';
 
 class Login extends Component {
   constructor(props) {
@@ -63,7 +61,7 @@ class Login extends Component {
           <div className="col-4 shadow loginPage__container__content">
             <div className="container  loginPage__container__maincontent ">
               <div className="loginPage__container__title">CV Generator Tool</div>
-              <img className="loginPage__container__logo" src={logo} />
+              <img className="loginPage__container__logo" src={logo} alt="logo"/>
               <div className="loginPage__container__username">
                 <div className="wrap-input100 validate-input">
                   <input

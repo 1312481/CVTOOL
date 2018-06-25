@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import pencil from "../assets/images/pencil.svg";
 import deleteImage from "../assets/images/delete.svg";
 import { connect } from "react-redux";
@@ -7,7 +7,7 @@ import plus from "../assets/images/plus.svg";
 import "../assets/styles/education.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import { Slide} from 'react-toastify';
 import POSTAPI from './postAPI'
 
 class Education extends Component {
@@ -121,12 +121,14 @@ class Education extends Component {
                 onClick={() => this.nameEducationEditing(index, field)}
                 className="iconEdit"
                 src={pencil}
+                alt="pencil"
               />
 
               <img
                 onClick={() => this.educationDeleting(index)}
                 className="iconEdit"
                 src={deleteImage}
+                alt="delete"
               />
             </span>
           )}
@@ -154,6 +156,7 @@ class Education extends Component {
                     onClick={() => this.educationAdding()}
                     className="iconEdit"
                     src={plus}
+                    alt={plus}
                   />
                 </th>
 

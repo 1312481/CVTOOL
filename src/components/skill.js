@@ -1,14 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import pencil from '../assets/images/pencil.svg'
 import deleteImage from '../assets/images/delete.svg'
 import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
 import '../assets/styles/education.css'
-import configureStore from '../store/configureStore';
 import plus from "../assets/images/plus.svg";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Slide, Zoom, Flip, Bounce } from 'react-toastify';
+import { Slide } from 'react-toastify';
 import POSTAPI from './postAPI'
 
 class Skill extends Component {
@@ -118,12 +117,14 @@ class Skill extends Component {
                 onClick={() => this.nameSkillEditing(index, field)}
                 className="iconEdit"
                 src={pencil}
+                alt="pencil"
               />
 
               <img
                 onClick={() => this.skillDeleting(index)}
                 className="iconEdit"
                 src={deleteImage}
+                alt="delete"
               />
             </span>
           )}
@@ -152,6 +153,7 @@ class Skill extends Component {
                     onClick={() => this.skillAdding()}
                     className="iconEdit"
                     src={plus}
+                    alt="plus"
                   />
                 </th>
                 <th scope="col">Detail</th>

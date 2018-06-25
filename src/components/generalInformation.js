@@ -1,10 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import '../assets/styles/generalInformation.css'
-import profile from '../assets/images/sang.jpg'
 import pencil from '../assets/images/pencil.svg'
 import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
-import { nameEditing } from '../reducers/profile';
 import POSTAPI from './postAPI'
 
 
@@ -49,7 +47,7 @@ class GeneralInformation extends Component {
 
     if (e.key === 'Enter') {
       let value = { ...this.props.profile[this.props.version.currentVersions] };
-      var user = sessionStorage.getItem("user");
+      let user = sessionStorage.getItem("user");
       value.personalInfo[fieldName] = e.target.value;
       let tempState = { ...this.state };
       tempState[field] = !tempState[field];
@@ -72,7 +70,7 @@ class GeneralInformation extends Component {
 
     else {
       return false
-    };
+    }
   }
   handleChange(e, fieldName) {
     console.log(fieldName);
@@ -99,7 +97,7 @@ class GeneralInformation extends Component {
             (
               <div >
                 {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
-                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} alt="pencil" />
               </div>
             )
 
@@ -131,7 +129,7 @@ class GeneralInformation extends Component {
             (
               (<div className="information__container__content" >
                 {this.props.profile[this.props.version.currentVersions].personalInfo[fieldName]}
-                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} />
+                <img onClick={() => this.nameEditing(field)} className="iconEdit" src={pencil} alt="pencil" />
               </div>)
             )
 
@@ -158,7 +156,7 @@ class GeneralInformation extends Component {
                 {this.renderProperInputHeader('positionEdited', 'currentPosition')}
               </div>
             </div>
-            <img className="card-img-top" src={this.props.profile[this.props.version.currentVersions].personalInfo.image} />
+            <img className="card-img-top" src={this.props.profile[this.props.version.currentVersions].personalInfo.image} alt="personalImage" />
           </div>
 
           <div className="col-7 offset-1">

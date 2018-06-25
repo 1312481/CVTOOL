@@ -11,7 +11,7 @@ const Header = props => {
 
                 <div className="header__logo__container">
 
-                    <img className="header__logo__image" src={logo} />
+                    <img className="header__logo__image" src={logo} alt="logo"/>
 
                 </div>
 
@@ -19,7 +19,7 @@ const Header = props => {
 
                 <div className="header__decorator__container">
 
-                    <img className="header__decorator__image" src={decorator} />
+                    <img className="header__decorator__image" src={decorator} alt="decorator" />
 
                 </div>
             </div>

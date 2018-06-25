@@ -1,4 +1,3 @@
-import React from 'react'
 
 const POSTAPI = (link, profile, key, version) => {
     return (fetch(link, {

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import '../assets/styles/changedata.css'
 import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
@@ -10,10 +10,14 @@ class ChangeData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showMenu: false
+            showMenu: false,
+            user: ""
         }
     }
-
+    componentWillMount() {
+        let user = sessionStorage.getItem("user");
+        this.setState({ user: user });
+    }
     increment() {
         this.props.versionIncrement();
     }
@@ -43,6 +47,14 @@ class ChangeData extends Component {
 
 
                 <div>
+                    <div>
+                        <div className="changeData__title">
+                            Username:
+                        </div>
+                        <div className="changeData__username">
+                            {this.state.user}
+                        </div>
+                    </div>
                     <div>
                         Choose Version:
                         <button className="btn btn-secondary dropdown-toggle customButton" onClick={() => this.showMenu()}>
