@@ -7,14 +7,25 @@ import Loading from './loading';
 
 
 class ChangeData extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state = {
+            showMenu: false
+        }
     }
+
     increment() {
         this.props.versionIncrement();
     }
     decrement() {
         this.props.versionDecrement();
+    }
+    showMenu() {
+        this.setState({ showMenu: !this.state.showMenu });
+    }
+    changeProfile(index){
+        this.props.changeVersion(index);
+        this.setState({ showMenu: !this.state.showMenu });
     }
     render() {
 
@@ -28,14 +39,36 @@ class ChangeData extends Component {
         }
         else return (
 
-            <div>
-                
-                <a onClick={() => this.decrement()} className="previous round">&#8249;</a>
+            <div className = "changeData">
+
+
                 <div>
-                Name tag for versions: 
-                {this.props.profile[this.props.version.currentVersions].tagName}
+                    <button className="btn btn-primary dropdown-toggle" onClick={() => this.showMenu()}>
+                        {this.props.profile[this.props.version.currentVersions].tagName}
+                    </button>
+                    <div className="menu">
+                        {
+                            this.state.showMenu ?
+
+                                (
+                                    this.props.profile.map((pro, index) => {
+                                        return (
+                                            <a className="dropdown-item" key={"pro" + index} 
+                                            onClick={()=> this.changeProfile(index)}>
+                                                {pro.tagName}
+                                            </a>
+                                        )
+                                    })
+                                ) :
+                                (
+                                    null
+                                )
+                        }
+
+                    </div>
+
                 </div>
-                <a onClick={() => this.increment()} className="next round">&#8250;</a>
+
             </div>
 
 
@@ -56,7 +89,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         versionIncrement: (profile) => dispatch(actions.incrementData()),
-        versionDecrement: (profile) => dispatch(actions.decrementData())
+        versionDecrement: (profile) => dispatch(actions.decrementData()),
+        changeVersion: (version) => dispatch(actions.changeVersion(version))
     };
 };
 

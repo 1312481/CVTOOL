@@ -6,6 +6,7 @@ export const FETCH_KEY_ID = 'FETCH_KEY_ID'
 export const INCREMENT_DATA = 'INCREMENT_DATA'
 export const DECREMENT_DATA = 'DECREMENT_DATA'
 export const VERSION_NUMBER= 'VERSION_NUMBER'
+export const CHANGE_VERSION_PROFILE= 'CHANGE_VERSION_PROFILE'
 
 export function isProfileError(isError) {
     return {
@@ -60,6 +61,12 @@ export function updateProfileData(profile,version) {
     return {
         type: UPDATE_PROFILE_DATA,
         profile,
+        version
+    };
+}
+export function changeVersion(version) {
+    return {
+        type: CHANGE_VERSION_PROFILE,
         version
     };
 }

@@ -12,18 +12,10 @@ class Dashboard extends Component {
       <div className="App">
         <ChangeData />
         <Header />
-      
         <GeneralInformation />
         <Skill />
         <Education />
         <Experience />
-   
-
-
-
-
-
-
       </div>
     );
   }

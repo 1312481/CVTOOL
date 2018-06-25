@@ -22,3 +22,17 @@ a:hover {
 .round {
     border-radius: 50%;
 }
+.changeData{
+    margin-left: 3%;
+}
+.dropdown-item{
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+}
+@media print{
+    .changeData{
+        display: none;
+    }
+    -webkit-print-color-adjust: exact;
+}

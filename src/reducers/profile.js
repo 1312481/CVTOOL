@@ -25,13 +25,21 @@ export function isProfileLoaded(state = false, action) {
 }
 export function version(state = initialState, action) {
     switch (action.type) {
+        case ActionTypes.CHANGE_VERSION_PROFILE:
+            {
+                console.log(action)
+                return Object.assign({}, state, {
+                    currentVersions: action.version
+                })
+            }
+
         case ActionTypes.INCREMENT_DATA:
             {
                 let temp = state.currentVersions;
-                if(state.currentVersions === state.numberOfVersions - 1){
+                if (state.currentVersions === state.numberOfVersions - 1) {
                     temp = 0;
                 }
-                else{
+                else {
                     temp++;
                 }
 
@@ -42,10 +50,10 @@ export function version(state = initialState, action) {
         case ActionTypes.DECREMENT_DATA:
             {
                 let temp = state.currentVersions;
-                if(state.currentVersions === 0){
+                if (state.currentVersions === 0) {
                     temp = state.numberOfVersions - 1;
                 }
-                else{
+                else {
                     temp--;
                 }
 
