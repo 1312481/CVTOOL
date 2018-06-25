@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import pencil from '../assets/images/pencil.svg'
 import deleteImage from '../assets/images/delete.svg'
 import { connect } from 'react-redux'
-import Error from './error'
-import Loading from './loading'
 import * as actions from '../actions/profile'
 import '../assets/styles/education.css'
 import configureStore from '../store/configureStore';
@@ -30,21 +28,21 @@ class Skill extends Component {
     this.setState(newstate);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.profile !== this.props.profile) {
-      const length = nextProps.profile[this.props.version.currentVersions].technicalSkill.length;
-      let projectResTemp = [];
-      for (let i = 0; i <= length; i++) {
-        let temp = false;
-        projectResTemp.push(temp);
-      }
-      this.setState({
-        skillNameEdited: projectResTemp,
-        skillDetailEdited: projectResTemp,
-        skill: nextProps.profile[this.props.version.currentVersions].technicalSkill
-      });
+  componentWillMount(nxtProps) {
 
+    const length = this.props.profile[this.props.version.currentVersions].technicalSkill.length;
+    let projectResTemp = [];
+    for (let i = 0; i <= length; i++) {
+      let temp = false;
+      projectResTemp.push(temp);
     }
+    this.setState({
+      skillNameEdited: projectResTemp,
+      skillDetailEdited: projectResTemp,
+      skill: this.props.profile[this.props.version.currentVersions].technicalSkill
+    });
+
+
 
 
 
@@ -60,7 +58,7 @@ class Skill extends Component {
       newstate[field] = temp;
       this.setState(newstate);
       this.props.profileUpdate(value);
-      POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
+      POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill, user, this.props.version.currentVersions)
 
     }
 
@@ -73,7 +71,7 @@ class Skill extends Component {
 
       value[this.props.version.currentVersions].technicalSkill.splice(index, 1);
       this.props.profileUpdate(value);
-      POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
+      POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill, user, this.props.version.currentVersions)
 
     }
   }
@@ -89,11 +87,11 @@ class Skill extends Component {
     toast.success('Adding Technical Skills Success!!!!', {
       autoClose: 2000
     });
-    POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill,user,this.props.version.currentVersions)
+    POSTAPI('http://localhost:3001/api/updatetechnicalskill', value[this.props.version.currentVersions].technicalSkill, user, this.props.version.currentVersions)
 
 
   }
-  handleChange(e, field, fieldName, index){
+  handleChange(e, field, fieldName, index) {
     let temp = [...this.state.skill];
     temp[index][fieldName] = e.target.value;
     this.setState({
@@ -108,7 +106,7 @@ class Skill extends Component {
           <input
             className="inputChange form-control"
             type="text"
-            value = {this.state.skill[index][fieldName]}
+            value={this.state.skill[index][fieldName]}
             onChange={e => this.handleChange(e, field, fieldName, index)}
             onKeyDown={e => this.updateFieldData(e, field, fieldName, index)}
           />
@@ -160,11 +158,11 @@ class Skill extends Component {
               </tr>
             </thead>
             <tbody>
-             
+
               {this.props.profile[this.props.version.currentVersions].technicalSkill.map((tech, index) => {
                 return (
 
-                  <tr key={'skill'+ index}>
+                  <tr key={'skill' + index}>
                     {this.renderProperInput("skillNameEdited", "name", index)}
                     {this.renderProperInput("skillDetailEdited", "detail", index)}
 
@@ -180,24 +178,7 @@ class Skill extends Component {
 
 
   render() {
-    if (this.props.isProfileError) {
-
-      return <Error />
-    }
-    else if (!this.props.isProfileLoaded) {
-
-      return <Loading />
-    }
-    else return this.renderSkillContainer();
-
-
-
-
-
-
-
-
-
+    return this.renderSkillContainer();
   }
 }
 

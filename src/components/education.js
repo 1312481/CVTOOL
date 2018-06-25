@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import Error from './error'
-import Loading from './loading'
 import pencil from "../assets/images/pencil.svg";
 import deleteImage from "../assets/images/delete.svg";
 import { connect } from "react-redux";
@@ -45,8 +43,8 @@ class Education extends Component {
       newstate[field] = temp;
       this.setState(newstate);
       this.props.profileUpdate(value);
-      POSTAPI('http://localhost:3001/api/updateeducation', value[this.props.version.currentVersions].education,user,this.props.version.currentVersions)
-    
+      POSTAPI('http://localhost:3001/api/updateeducation', value[this.props.version.currentVersions].education, user, this.props.version.currentVersions)
+
 
     }
   }
@@ -57,8 +55,8 @@ class Education extends Component {
       let user = sessionStorage.getItem("user");
       value[this.props.version.currentVersions].education.splice(index, 1);
       this.props.profileUpdate(value);
-      POSTAPI('http://localhost:3001/api/updateeducation', value[this.props.version.currentVersions].education,user,this.props.version.currentVersions)
-      
+      POSTAPI('http://localhost:3001/api/updateeducation', value[this.props.version.currentVersions].education, user, this.props.version.currentVersions)
+
     }
   }
 
@@ -72,32 +70,30 @@ class Education extends Component {
     value[this.props.version.currentVersions].education.push(tempEducation);
 
     this.props.profileUpdate(value);
-    POSTAPI('http://localhost:3001/api/updateeducation', value[this.props.version.currentVersions].education,user,this.props.version.currentVersions)    
+    POSTAPI('http://localhost:3001/api/updateeducation', value[this.props.version.currentVersions].education, user, this.props.version.currentVersions)
     toast.success('Adding Education Success!!!!', {
       autoClose: 2000
     });
 
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.profile !== this.props.profile) {
-      const length = nextProps.profile[this.props.version.currentVersions].education.length;
-      let projectResTemp = [];
-      for (let i = 0; i <= length; i++) {
-        let temp = false;
-
-        projectResTemp.push(temp);
-      }
-      this.setState({ 
-        nameEducationEdited: projectResTemp, 
-        majorEducationEdited: projectResTemp,
-        graduatedEducationEdited: projectResTemp,
-        education: nextProps.profile[this.props.version.currentVersions].education
-      });
+  componentWillMount() {
+    const length = this.props.profile[this.props.version.currentVersions].education.length;
+    let projectResTemp = [];
+    for (let i = 0; i <= length; i++) {
+      let temp = false;
+      projectResTemp.push(temp);
     }
+    this.setState({
+      nameEducationEdited: projectResTemp,
+      majorEducationEdited: projectResTemp,
+      graduatedEducationEdited: projectResTemp,
+      education: this.props.profile[this.props.version.currentVersions].education
+    });
+
 
   }
-  handleChange(e,field, fieldName, index){
+  handleChange(e, field, fieldName, index) {
     let temp = [...this.state.education];
     temp[index][fieldName] = e.target.value;
     this.setState({
@@ -113,9 +109,9 @@ class Education extends Component {
           <input
             className="inputChange form-control"
             type="text"
-            value = {this.state.education[index][fieldName]}
+            value={this.state.education[index][fieldName]}
             onKeyDown={e => this.updateFieldData(e, field, fieldName, index)}
-            onChange = {e => this.handleChange(e,field, fieldName, index)}
+            onChange={e => this.handleChange(e, field, fieldName, index)}
           />
         ) : (
             <span className="">
@@ -181,14 +177,7 @@ class Education extends Component {
   }
 
   render() {
-    if (this.props.isProfileError) {
-      return <Error />
-    } else if (!this.props.isProfileLoaded) {
-      return <Loading />
-    } 
-
-    else return this.renderEducationContainer();
-
+    return this.renderEducationContainer();
   }
 }
 

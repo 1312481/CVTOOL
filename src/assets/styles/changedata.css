@@ -25,11 +25,33 @@ a:hover {
 .changeData{
     margin-left: 3%;
 }
+.menu{
+    border: black 1px solid;
+    width: 25%;
+    margin-top: 2px;
+    position: absolute;
+    background-color: #6D829F;
+    color: white;
+    z-index: 2;
+}
+.menu .dropdown-item:hover{
+    color: red;
+    background-color: #607189;
+}
 .dropdown-item{
     cursor: pointer;
     position: relative;
     width: 100%;
+  
 }
+
+.btn-secondary{
+    background-color: #6D829F !important;
+}
+.customButton{
+    margin-left: 5%;
+}
+
 @media print{
     .changeData{
         display: none;

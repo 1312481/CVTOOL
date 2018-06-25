@@ -73,25 +73,20 @@ export function changeVersion(version) {
 
 export function fetchProfileData(url) {
     return (dispatch) => {
-
         fetch(url)
             .then((response) => {
                 if (!response.ok){
                     throw Error (response.statusText);
                 }
-
                 return response;
             })
             .then((response) => response.json())
             .then((profile) => {
-
                 dispatch(fetchProfileDataSuccess(profile));
                 dispatch(isProfileLoaded(true));
                 dispatch(getNumberOfVersions(profile[0].data.length));
-
                 }
             )
-
     }
 }
 

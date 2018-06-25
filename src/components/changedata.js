@@ -23,7 +23,7 @@ class ChangeData extends Component {
     showMenu() {
         this.setState({ showMenu: !this.state.showMenu });
     }
-    changeProfile(index){
+    changeProfile(index) {
         this.props.changeVersion(index);
         this.setState({ showMenu: !this.state.showMenu });
     }
@@ -39,24 +39,30 @@ class ChangeData extends Component {
         }
         else return (
 
-            <div className = "changeData">
+            <div className="changeData">
 
 
                 <div>
-                    <button className="btn btn-primary dropdown-toggle" onClick={() => this.showMenu()}>
-                        {this.props.profile[this.props.version.currentVersions].tagName}
-                    </button>
-                    <div className="menu">
+                    <div>
+                        Choose Version:
+                        <button className="btn btn-secondary dropdown-toggle customButton" onClick={() => this.showMenu()}>
+                            {this.props.profile[this.props.version.currentVersions].tagName}
+                        </button>
+                    </div>
+
+                    <div className={(this.state.showMenu ? 'menu' : null)}>
                         {
                             this.state.showMenu ?
 
                                 (
                                     this.props.profile.map((pro, index) => {
                                         return (
-                                            <a className="dropdown-item" key={"pro" + index} 
-                                            onClick={()=> this.changeProfile(index)}>
-                                                {pro.tagName}
+                                            <a className="dropdown-item" key={"pro" + index}
+                                                onClick={() => this.changeProfile(index)}>
+                                                Version Name {index}: {pro.tagName}
+
                                             </a>
+
                                         )
                                     })
                                 ) :
@@ -64,11 +70,8 @@ class ChangeData extends Component {
                                     null
                                 )
                         }
-
                     </div>
-
                 </div>
-
             </div>
 
 

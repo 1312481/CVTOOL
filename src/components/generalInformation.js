@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import '../assets/styles/generalInformation.css'
 import profile from '../assets/images/sang.jpg'
-import Error from './error'
-import Loading from './loading'
 import pencil from '../assets/images/pencil.svg'
 import { connect } from 'react-redux'
 import * as actions from '../actions/profile'
@@ -160,7 +158,7 @@ class GeneralInformation extends Component {
                 {this.renderProperInputHeader('positionEdited', 'currentPosition')}
               </div>
             </div>
-            <img className="card-img-top" src={profile} />
+            <img className="card-img-top" src={this.props.profile[this.props.version.currentVersions].personalInfo.image} />
           </div>
 
           <div className="col-7 offset-1">
@@ -204,50 +202,31 @@ class GeneralInformation extends Component {
     );
 
   }
-  componentDidMount() {
 
-    let link = 'http://localhost:3001/api/';
-    var user = sessionStorage.getItem("user");
-    let url = link + `${user}`;
-    this.props.fetchData(url);
-
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.profile !== this.props.profile) {
+  componentWillMount() {
+ 
       this.setState({ 
-        name: nextProps.profile[this.props.version.currentVersions].personalInfo.name,
-        currentPosition: nextProps.profile[this.props.version.currentVersions].personalInfo.currentPosition,
-        phoneNumber: nextProps.profile[this.props.version.currentVersions].personalInfo.phoneNumber,
-        address: nextProps.profile[this.props.version.currentVersions].personalInfo.address,
-        email: nextProps.profile[this.props.version.currentVersions].personalInfo.email,
-        facebook: nextProps.profile[this.props.version.currentVersions].personalInfo.facebook,
-        linkedin: nextProps.profile[this.props.version.currentVersions].personalInfo.linkedin,
-        github: nextProps.profile[this.props.version.currentVersions].personalInfo.github,
-        portfolio: nextProps.profile[this.props.version.currentVersions].personalInfo.portfolio,
-        personalStatement: nextProps.profile[this.props.version.currentVersions].personalInfo.personalStatement,
-        englishLevel: nextProps.profile[this.props.version.currentVersions].personalInfo.englishLevel,
-        skill: nextProps.profile[this.props.version.currentVersions].personalInfo.skill
+        name: this.props.profile[this.props.version.currentVersions].personalInfo.name,
+        currentPosition: this.props.profile[this.props.version.currentVersions].personalInfo.currentPosition,
+        phoneNumber: this.props.profile[this.props.version.currentVersions].personalInfo.phoneNumber,
+        address: this.props.profile[this.props.version.currentVersions].personalInfo.address,
+        email: this.props.profile[this.props.version.currentVersions].personalInfo.email,
+        facebook: this.props.profile[this.props.version.currentVersions].personalInfo.facebook,
+        linkedin: this.props.profile[this.props.version.currentVersions].personalInfo.linkedin,
+        github: this.props.profile[this.props.version.currentVersions].personalInfo.github,
+        portfolio: this.props.profile[this.props.version.currentVersions].personalInfo.portfolio,
+        personalStatement: this.props.profile[this.props.version.currentVersions].personalInfo.personalStatement,
+        englishLevel: this.props.profile[this.props.version.currentVersions].personalInfo.englishLevel,
+        skill: this.props.profile[this.props.version.currentVersions].personalInfo.skill,
+        image: this.props.profile[this.props.version.currentVersions].personalInfo.image
        })
-    }
+    
   }
 
 
 
   render() {
-
-
-    if (this.props.isProfileError) {
-
-      return <Error />
-    }
-    else if (!this.props.isProfileLoaded) {
-
-      return <Loading />
-    }
-    else {
-
       return this.renderGeneralInformationContainer();
-    }
   }
 }
 

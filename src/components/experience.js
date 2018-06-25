@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-
 import pencil from "../assets/images/pencil.svg";
 import deleteImage from "../assets/images/delete.svg";
 import plus from "../assets/images/plus.svg";
@@ -7,8 +6,6 @@ import { connect } from "react-redux";
 import * as actions from "../actions/profile";
 import "../assets/styles/education.css";
 import configureStore from "../store/configureStore";
-import Error from "./error";
-import Loading from "./loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Slide, Zoom, Flip, Bounce } from "react-toastify";
@@ -30,42 +27,41 @@ class Experience extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillMount() {
     const { currentVersions } = this.props.version;
-    if (nextProps.profile !== this.props.profile) {
-      let projectResTemp = [];
-      let projectTemp = [];
-      for (let i = 0;
-        i <
-        nextProps.profile[currentVersions].experience.length;
-        i++
+    let projectResTemp = [];
+    let projectTemp = [];
+    for (let i = 0;
+      i <
+      this.props.profile[currentVersions].experience.length;
+      i++
+    ) {
+      let tempRes = [];
+
+      for (
+        let j = 0;
+        j <
+        this.props.profile[currentVersions].experience[i].responsibility.length;
+        j++
       ) {
-        let tempRes = [];
-
-        for (
-          let j = 0;
-          j <
-          nextProps.profile[currentVersions].experience[i]
-            .responsibility.length;
-          j++
-        ) {
-          tempRes.push(false);
-        }
-        projectTemp.push(false);
-        projectResTemp.push(tempRes);
+        tempRes.push(false);
       }
-
-      this.setState({
-        projectResEdited: projectResTemp,
-        projectNameEdited: projectTemp,
-        projectDurationEdited: projectTemp,
-        projectPositionEdited: projectTemp,
-        projectDescriptionEdited: projectTemp,
-        projectTechnologyEdited: projectTemp,
-        experience:
-          nextProps.profile[currentVersions].experience
-      });
+      projectTemp.push(false);
+      projectResTemp.push(tempRes);
     }
+    console.log(projectResTemp)
+
+    this.setState({
+      projectResEdited: projectResTemp,
+      projectNameEdited: projectTemp,
+      projectDurationEdited: projectTemp,
+      projectPositionEdited: projectTemp,
+      projectDescriptionEdited: projectTemp,
+      projectTechnologyEdited: projectTemp,
+      experience:
+        this.props.profile[currentVersions].experience
+    });
+
   }
   experienceEditing(index, field, resIndex) {
     if (typeof resIndex === "number") {
@@ -224,6 +220,7 @@ class Experience extends Component {
   }
 
   renderExperienceContainer() {
+    { console.log(this.props.profile) }
     return (
 
       <div>
@@ -307,6 +304,7 @@ class Experience extends Component {
                                     resIndex.toString()
                                   }
                                 >
+                                  {console.log(this.state.projectResEdited)}
                                   {this.state.projectResEdited[index][
                                     resIndex
                                   ] ? (
@@ -367,7 +365,7 @@ class Experience extends Component {
                                 </li>
                               );
                             }
-                          )}
+                            )}
                         </ul>
                       </td>
                     </tr>
@@ -391,13 +389,7 @@ class Experience extends Component {
   }
 
   render() {
-    if (this.props.isProfileError) {
-      return <Error />;
-    } else if (!this.props.isProfileLoaded) {
-      return <Loading />;
-    } else {
-      return this.renderExperienceContainer();
-    }
+    return this.renderExperienceContainer();
   }
 }
 
