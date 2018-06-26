@@ -16,36 +16,61 @@ class Login extends Component {
       filename: "",
       tagname: "",
       user: "",
-      profile: {}
+      profile: ""
     };
   }
-
+  checkExtensionName(filename) {
+    if (filename.split('.').pop() === "json") {
+      return true;
+    }
+    else return false;
+  }
   handleChange = (e, results) => {
-    results.forEach(result => {
-      const [e, file] = result;
-      this.setState({ filename: file.name });
-      let profile = JSON.parse(e.target.result);
-      this.setState({ profile: profile });
 
-    });
+    if (this.checkExtensionName(results[0][1].name)) {
+      results.forEach(result => {
+        const [e, file] = result;
+        this.setState({ filename: file.name });
+        let profile = JSON.parse(e.target.result);
+        this.setState({ profile: profile });
+
+      });
+    }
+    else {
+      toast.error('Ban phai nhap import file JSON  ', {
+        autoClose: 2000
+      });
+    }
+
   };
   handleUserChange = (e) => {
     this.setState({ user: e.target.value });
   }
   handleTagNameChange = (e) => {
-    this.setState({tagname: e.target.value});
+    this.setState({ tagname: e.target.value });
   }
   submit = () => {
-    if (this.state.user === "" || this.state.filename === "") {
-      toast.error('Ban phai nhap ten dang nhap va import file JSON  ', {
+    if (this.state.user === "") {
+      toast.error('Ban phai nhap ten dang nhap ', {
         autoClose: 2000
       });
     }
     else {
       sessionStorage.setItem('user', this.state.user);
       this.props.userLoading();
-      POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user, this.state.tagname);
-      this.props.history.push('/dashboard')
+      POSTAPI('http://localhost:3001/api/checkUserExistence', this.state.profile, this.state.user)
+        .then(data => {
+          if (data === 'failed') {
+            toast.error('User nay chua ton tai, ban phai nhap file JSON  ', {
+              autoClose: 2000
+            });
+          }
+          else if (data === 'success'){
+            POSTAPI('http://localhost:3001/api/register', this.state.profile, this.state.user,this.state.tagname)
+            this.props.history.push('/dashboard')
+          }
+        })
+      
     }
 
   }
@@ -61,7 +86,7 @@ class Login extends Component {
           <div className="col-4 shadow loginPage__container__content">
             <div className="container  loginPage__container__maincontent ">
               <div className="loginPage__container__title">CV Generator Tool</div>
-              <img className="loginPage__container__logo" src={logo} alt="logo"/>
+              <img className="loginPage__container__logo" src={logo} alt="logo" />
               <div className="loginPage__container__username">
                 <div className="wrap-input100 validate-input">
                   <input
@@ -93,7 +118,7 @@ class Login extends Component {
                   className="loginPage__container__filetitle"
                   htmlFor="file"
                 >
-                  <div class="loginPage__container__filename">File: {this.state.filename}</div>
+                  <div className="loginPage__container__filename">File: {this.state.filename}</div>
                 </label>
 
                 <div className="loginPage__container__input">
@@ -108,7 +133,7 @@ class Login extends Component {
                   </FileReaderInput>
                 </div>
               </div>
-              
+
 
               <div className="loginPage__container_containersubmit">
                 <div className="col-6 loginPage__container_submit">

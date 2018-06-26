@@ -177,7 +177,7 @@ class GeneralInformation extends Component {
               </div>
 
               <div className="card col-6 card-custom">
-                <h4 className="card-title information__header">Personal Statement</h4>
+                <h4 className="card-title information__header" id="personalStatement">Personal Statement</h4>
                 <div className="card-text">
                   {this.renderProperInputPersonalInformation('personalStatementEdited', 'personalStatement')}
                 </div>

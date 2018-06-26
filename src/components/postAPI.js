@@ -12,6 +12,7 @@ const POSTAPI = (link, profile, key, version) => {
             version: version
         })
     }))
+    .then(respone => respone.json())
 }
 
 export default POSTAPI;

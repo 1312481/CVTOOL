@@ -73,7 +73,9 @@
 #personalInfo {
     border-right: none !important;
 }
-
+#personalStatement{
+    border-left: none !important;
+}
 @media print {
   .content__card-body__custom{
     margin-top: 80px;
