@@ -137,13 +137,46 @@
 .loginPage__container__buttonsubmit {
   width: 100%;
   color: white;
-  padding: 8px;
+  padding: 3px;
   border-radius: 25px;
   background-color: #CF2338;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 
 .loginPage__container_containersubmit {
   margin-top: 60px;
+}
+
+@media screen and (max-width: 1000px) {
+  .loginPage__container__buttonsubmit{
+    font-size: 1.2rem;
+  }
+  .loginPage__container__buttonJSON{
+    font-size: 0.8rem;
+  }
+  .loginPage .loginPage__container .loginPage__container__title {
+    font-size: 1.4rem;
+  }
+
+}
+@media screen and (max-height: 670px) {
+  .loginPage__container_containersubmit{
+    margin-top: 40px;
+  }
+  .loginPage__container__buttonJSON{
+    font-size: 0.8rem;
+  }
+  .loginPage .loginPage__container .loginPage__container__title {
+    font-size: 1.4rem;
+  }
+
+}
+
+@media screen and (max-height: 550px) {
+  .loginPage__container_containersubmit{
+    margin-top: 10px;
+  }
+
+
 }

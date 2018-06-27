@@ -34,15 +34,18 @@ a:hover {
     color: white;
     z-index: 2;
 }
-.menu .dropdown-item:hover{
-    color: red;
+.menu .dropdown-item-custom:hover{
     background-color: #607189;
 }
-.dropdown-item{
+
+.dropdown-item-custom{
     cursor: pointer;
     position: relative;
     width: 100%;
   
+}
+.iconEdit{
+    cursor: pointer;
 }
 
 .btn-secondary{
@@ -57,6 +60,9 @@ a:hover {
 .changeData__username{
     display: inline;
     margin-left: 8%;
+}
+.imageEditing{
+    display: inline;
 }
 @media print{
     .changeData{

@@ -83,7 +83,7 @@ class Login extends Component {
           newestOnTop
         />
         <div className="row loginPage__container">
-          <div className="col-4 shadow loginPage__container__content">
+          <div className="col-sm-6 col-md-4 col-lg-4 shadow loginPage__container__content">
             <div className="container  loginPage__container__maincontent ">
               <div className="loginPage__container__title">CV Generator Tool</div>
               <img className="loginPage__container__logo" src={logo} alt="logo" />
@@ -136,7 +136,7 @@ class Login extends Component {
 
 
               <div className="loginPage__container_containersubmit">
-                <div className="col-6 loginPage__container_submit">
+                <div className="col-7 loginPage__container_submit">
                   <button onClick={() => this.submit()} className="loginPage__container__buttonsubmit">
                     Submit
                   </button>

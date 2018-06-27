@@ -77,8 +77,10 @@ export function profile(state = [], action) {
             return action.profile[0].data;
         }
         case ActionTypes.UPDATE_PROFILE_DATA: {
+       
             let newState = [...state];
-            newState[action.key] = action.profile;
+            console.log(newState);
+            newState[action.version] = action.profile;
             return newState;
 
         }

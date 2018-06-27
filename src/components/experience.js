@@ -48,6 +48,7 @@ class Experience extends Component {
       projectTemp.push(false);
       projectResTemp.push(tempRes);
     }
+    console.log(projectResTemp);
     this.setState({
       projectResEdited: projectResTemp,
       projectNameEdited: projectTemp,
@@ -90,9 +91,9 @@ class Experience extends Component {
       } else {
         value[currentVersions].experience[index][fieldName] =
           e.target.value;
-        let temp = { ...this.state[field] };
+        let temp = [...this.state[field]];
         temp[index] = !temp[index];
-        this.setState({ field: temp });
+        this.setState({ [field]: temp });
       }
       POSTAPI(
         "http://localhost:3001/api/updateexperience",
@@ -100,6 +101,7 @@ class Experience extends Component {
         user,
         this.props.version.currentVersions
       );
+
       this.props.profileUpdate(value);
     }
   }
@@ -156,6 +158,9 @@ class Experience extends Component {
       tempExp.technicalSkills = defaultName;
       tempExp.time = defaultName;
       tempExp.responsibility = [defaultName, defaultName];
+      let projectResEditedTemp = [...this.state.projectResEdited];
+      projectResEditedTemp.push([false, false]);
+      this.setState({ projectResEdited: projectResEditedTemp })
       let value = { ...this.props.profile };
       value[currentVersions].experience.push(tempExp);
       POSTAPI(
@@ -228,6 +233,7 @@ class Experience extends Component {
               src={plus}
               alt="plus"
             />
+
           </div>
         </div>
         {this.props.profile[this.props.version.currentVersions].experience.map(
@@ -237,7 +243,16 @@ class Experience extends Component {
                 <table>
                   <thead>
                     <tr className="table-custom">
-                      <th scope="col">Project</th>
+                      <th scope="col">
+                        Project
+                        <img
+                          onClick={() => this.experienceDeleting(index)}
+                          className="iconEdit"
+                          src={deleteImage}
+                          alt="delete"
+                        />
+                      </th>
+
                       {this.renderProperExperienceInput(
                         exp,
                         "projectNameEdited",
@@ -344,7 +359,7 @@ class Experience extends Component {
                                           }
                                           className="iconEdit"
                                           src={pencil}
-                                          alt ="pencil"
+                                          alt="pencil"
                                         />
                                         <img
                                           onClick={() =>
