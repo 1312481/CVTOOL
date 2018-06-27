@@ -12,23 +12,23 @@ class ChangeData extends Component {
         super(props);
         this.state = {
             edit: [],
-            version:[],
+            version: [],
             showMenu: false,
             user: "",
-            data:[]
+            data: []
         }
     }
     componentWillMount() {
         let user = sessionStorage.getItem("user");
         this.setState({ user: user });
         const length = this.props.version.numberOfVersions;
-        var a= false;
-        var temp =[];
-        for (let i = 0; i <= length; i++){
+        var a = false;
+        var temp = [];
+        for (let i = 0; i <= length; i++) {
             temp.push(a)
         }
-        this.setState({edit: temp})
-        this.setState({data: this.props.profile})
+        this.setState({ edit: temp })
+        this.setState({ data: this.props.profile })
     }
     increment() {
         this.props.versionIncrement();
@@ -56,7 +56,7 @@ class ChangeData extends Component {
             POSTAPI('http://localhost:3001/api/updateversion', e.target.value, user, index);
         }
     }
-    handleChange(e, index){
+    handleChange(e, index) {
         console.log('index la: ', index)
         let temp = [...this.state.data];
         console.log(e.target.value);
@@ -81,7 +81,7 @@ class ChangeData extends Component {
             return <Loading />
         }
         else return (
-            
+
             <div className="changeData">
                 <div>
                     <div>
@@ -109,19 +109,23 @@ class ChangeData extends Component {
                                                 {this.state.edit[index] ?
                                                     (<div className="dropdown-item-custom" key={"divinput" + index}>
                                                         <input key={"input" + index} className="inputChange form-control"
-                                                            value = {this.state.data[index].tagName}
-                                                            onChange = {(e) => this.handleChange(e, index)}
+                                                            value={this.state.data[index].tagName}
+                                                            onChange={(e) => this.handleChange(e, index)}
                                                             onKeyDown={(e) => this.handleKeyNamePress(e, pro, index)} />
                                                     </div>) :
                                                     (
                                                         <div>
-                                                            <div className="dropdown-item-custom" key={"pro" + index}
-                                                                onClick={() => this.changeProfile(index)}>
-                                                                {this.props.profile[index].tagName}
+                                                            <div>
+                                                                <div className="dropdown-item-custom" key={"pro" + index}
+
+                                                                    onClick={() => this.changeProfile(index)}>
+                                                                    Version {index}: {this.props.profile[index].tagName}
+                                                                </div>
+                                                                <div className="imageEditing">
+                                                                    <img onClick={() => this.editing(index)} className="iconEdit" src={pencil} alt="pencil" key={"image" + index} />
+                                                                </div>
                                                             </div>
-                                                            <div className="imageEditing">
-                                                                <img onClick={() => this.editing(index)} className="iconEdit" src={pencil} alt="pencil" key={"image" + index} />
-                                                            </div>
+
                                                         </div>
                                                     )
                                                 }

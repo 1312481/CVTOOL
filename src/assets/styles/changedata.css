@@ -41,7 +41,7 @@ a:hover {
 .dropdown-item-custom{
     cursor: pointer;
     position: relative;
-    width: 100%;
+    display: inline;
   
 }
 .iconEdit{
