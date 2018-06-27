@@ -48,7 +48,6 @@ class Experience extends Component {
       projectTemp.push(false);
       projectResTemp.push(tempRes);
     }
-    console.log(projectResTemp);
     this.setState({
       projectResEdited: projectResTemp,
       projectNameEdited: projectTemp,
