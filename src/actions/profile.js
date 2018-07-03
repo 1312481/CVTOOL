@@ -83,8 +83,9 @@ export function fetchProfileData(url) {
             .then((response) => response.json())
             .then((profile) => {
                 dispatch(fetchProfileDataSuccess(profile));
-                dispatch(isProfileLoaded(true));
                 dispatch(getNumberOfVersions(profile[0].data.length));
+                dispatch(isProfileLoaded(true));
+          
                 }
             )
     }

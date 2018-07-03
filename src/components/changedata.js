@@ -49,7 +49,6 @@ class ChangeData extends Component {
             let user = sessionStorage.getItem("user");
             value.tagName = e.target.value;
             let temp = [...this.state.edit];
-            console.log(temp);
             temp[index] = !temp[index];
             this.setState({ edit: temp });
             this.props.profileUpdate(value, index);
@@ -57,9 +56,7 @@ class ChangeData extends Component {
         }
     }
     handleChange(e, index) {
-        console.log('index la: ', index)
         let temp = [...this.state.data];
-        console.log(e.target.value);
         temp[index]["tagName"] = e.target.value;
         this.setState({
             data: temp
@@ -107,7 +104,7 @@ class ChangeData extends Component {
                                         return (
                                             <div key={"profile" + index}>
                                                 {this.state.edit[index] ?
-                                                    (<div className="dropdown-item-custom" key={"divinput" + index}>
+                                                    (<div  key={"divinput" + index}>
                                                         <input key={"input" + index} className="inputChange form-control"
                                                             value={this.state.data[index].tagName}
                                                             onChange={(e) => this.handleChange(e, index)}

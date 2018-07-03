@@ -62,7 +62,7 @@ export function version(state = initialState, action) {
             }
         case ActionTypes.VERSION_NUMBER:
             {
-                
+                console.log(action)
                 return Object.assign({}, state, {
                     numberOfVersions: action.data,
                     currentVersions: action.data - 1

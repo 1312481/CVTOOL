@@ -202,7 +202,6 @@ class GeneralInformation extends Component {
   }
 
   componentWillMount() {
- 
       this.setState({ 
         name: this.props.profile[this.props.version.currentVersions].personalInfo.name,
         currentPosition: this.props.profile[this.props.version.currentVersions].personalInfo.currentPosition,
@@ -219,6 +218,23 @@ class GeneralInformation extends Component {
         image: this.props.profile[this.props.version.currentVersions].personalInfo.image
        })
     
+  }
+  componentWillReceiveProps(nextProps){
+    this.setState({ 
+      name: nextProps.profile[nextProps.version.currentVersions].personalInfo.name,
+      currentPosition: nextProps.profile[nextProps.version.currentVersions].personalInfo.currentPosition,
+      phoneNumber: nextProps.profile[nextProps.version.currentVersions].personalInfo.phoneNumber,
+      address: nextProps.profile[nextProps.version.currentVersions].personalInfo.address,
+      email: nextProps.profile[nextProps.version.currentVersions].personalInfo.email,
+      facebook: nextProps.profile[nextProps.version.currentVersions].personalInfo.facebook,
+      linkedin: nextProps.profile[nextProps.version.currentVersions].personalInfo.linkedin,
+      github: nextProps.profile[nextProps.version.currentVersions].personalInfo.github,
+      portfolio: nextProps.profile[nextProps.version.currentVersions].personalInfo.portfolio,
+      personalStatement: nextProps.profile[nextProps.version.currentVersions].personalInfo.personalStatement,
+      englishLevel: nextProps.profile[nextProps.version.currentVersions].personalInfo.englishLevel,
+      skill: nextProps.profile[nextProps.version.currentVersions].personalInfo.skill,
+      image: nextProps.profile[nextProps.version.currentVersions].personalInfo.image
+     })
   }
 
 

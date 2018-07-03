@@ -93,6 +93,11 @@ class Education extends Component {
 
 
   }
+  componentWillReceiveProps(nextProps){
+    this.setState({ 
+      education: nextProps.profile[nextProps.version.currentVersions].education
+    })
+  }
   handleChange(e, field, fieldName, index) {
     let temp = [...this.state.education];
     temp[index][fieldName] = e.target.value;

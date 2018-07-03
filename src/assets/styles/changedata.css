@@ -26,23 +26,23 @@ a:hover {
     margin-left: 3%;
 }
 .menu{
-    border: black 1px solid;
     width: 25%;
     margin-top: 2px;
     position: absolute;
     background-color: #6D829F;
     color: white;
     z-index: 2;
+    border-radius: 5px;
 }
 .menu .dropdown-item-custom:hover{
-    background-color: #607189;
+    font-weight: bold;
 }
 
 .dropdown-item-custom{
     cursor: pointer;
     position: relative;
     display: inline;
-  
+    padding-left: 2%;
 }
 .iconEdit{
     cursor: pointer;

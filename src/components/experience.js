@@ -60,6 +60,38 @@ class Experience extends Component {
     });
 
   }
+  componentWillReceiveProps(nextProps){
+    const { currentVersions } = nextProps.version;
+    let projectResTemp = [];
+    let projectTemp = [];
+    for (let i = 0;
+      i <
+      nextProps.profile[currentVersions].experience.length;
+      i++
+    ) {
+      let tempRes = [];
+
+      for (
+        let j = 0;
+        j <
+        nextProps.profile[currentVersions].experience[i].responsibility.length;
+        j++
+      ) {
+        tempRes.push(false);
+      }
+      projectTemp.push(false);
+      projectResTemp.push(tempRes);
+    }
+    this.setState({
+      projectResEdited: projectResTemp,
+      projectNameEdited: projectTemp,
+      projectDurationEdited: projectTemp,
+      projectPositionEdited: projectTemp,
+      projectDescriptionEdited: projectTemp,
+      projectTechnologyEdited: projectTemp,
+      experience: nextProps.profile[nextProps.version.currentVersions].experience
+    })
+  }
   experienceEditing(index, field, resIndex) {
     if (typeof resIndex === "number") {
       let temp = { ...this.state.projectResEdited };

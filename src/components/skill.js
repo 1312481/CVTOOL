@@ -27,8 +27,7 @@ class Skill extends Component {
     this.setState(newstate);
   }
 
-  componentWillMount(nxtProps) {
-
+  componentWillMount() {
     const length = this.props.profile[this.props.version.currentVersions].technicalSkill.length;
     let projectResTemp = [];
     for (let i = 0; i <= length; i++) {
@@ -40,11 +39,11 @@ class Skill extends Component {
       skillDetailEdited: projectResTemp,
       skill: this.props.profile[this.props.version.currentVersions].technicalSkill
     });
-
-
-
-
-
+  }
+  componentWillReceiveProps(nextProps){
+    this.setState({ 
+      skill: nextProps.profile[nextProps.version.currentVersions].technicalSkill
+    })
   }
   updateFieldData(e, field, fieldName, index) {
     if (e.key === "Enter") {
